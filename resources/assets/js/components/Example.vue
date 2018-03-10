@@ -8,6 +8,7 @@
                     <div class="panel-body">
                         I'm an example omponent!
                     </div>
+                    <el-input>please</el-input>
                 </div>
             </div>
         </div>
@@ -18,6 +19,11 @@
     export default {
         mounted() {
             console.log('Component mounted.')
+        },
+        data() {
+            return {
+                visible: true
+            }
         }
     }
 </script>
