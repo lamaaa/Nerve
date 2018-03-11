@@ -17,9 +17,24 @@ window.Vue = require('vue');
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
-Vue.component('example', require('./components/Example.vue'));
+import VueRouter from 'vue-router';
 
+Vue.use(ElementUI);
+Vue.use(VueRouter);
+Vue.component('nerve', require('./components/Nerve.vue'));
+
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+const routes = [
+    { path: '/foo', component: Foo },
+    { path: '/bar', component: Bar }
+]
+
+const router = new VueRouter({
+    routes
+})
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router
 });
