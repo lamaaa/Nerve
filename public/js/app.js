@@ -88965,8 +88965,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -88990,12 +88988,7 @@ var render = function() {
       _c(
         "el-row",
         [
-          _c(
-            "div",
-            { staticStyle: { "background-color": "#000000" } },
-            [_c("el-col", { attrs: { span: 4 } }, [_c("MyNav")], 1)],
-            1
-          ),
+          _c("el-col", { attrs: { span: 4 } }, [_c("MyNav")], 1),
           _vm._v(" "),
           _c("el-col", { attrs: { span: 20 } }, [_c("router-view")], 1)
         ],
