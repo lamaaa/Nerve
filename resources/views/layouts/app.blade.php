@@ -17,7 +17,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="container" style="width: 90%;">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->

@@ -1,4 +1,5 @@
 <template>
+    <aside style="height: 1700px; border-right: solid 1px #e6e6e6; background-color: #fff">
     <el-menu
     default-active="2"
     class="el-menu-vertial-demo"
@@ -36,6 +37,7 @@
             <span slot="title">导航四</span>
         </el-menu-item>
     </el-menu>
+    </aside>
 </template>
 <script>
     export default {

@@ -1,10 +1,10 @@
 <template>
     <div id="app">
         <el-row>
-            <el-col :span="4">
+            <el-col :span="3">
                 <MyNav></MyNav>
             </el-col>
-            <el-col :span="20">
+            <el-col :span="21">
                 <router-view></router-view>
             </el-col>
         </el-row>
