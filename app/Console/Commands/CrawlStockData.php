@@ -11,14 +11,14 @@ class CrawlStockData extends Command
      *
      * @var string
      */
-    protected $signature = 'crawl:stockData {source}';
+    protected $signature = 'crawl:stockQuotes {source}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Crawl Stock Data And Store To Redis';
+    protected $description = 'Crawl Stock Quotes And Store To Redis';
 
     /**
      * Create a new command instance.
