@@ -2,8 +2,8 @@
 
 namespace App\Console;
 
-use App\Console\Commands\CrawlStockCodeAndStockName;
-use App\Console\Commands\CrawlStockData;
+use App\Console\Commands\CrawlStockCodeAndName;
+use App\Console\Commands\CrawlStockQuotes;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        CrawlStockData::class,
-        CrawlStockCodeAndStockName::class
+        CrawlStockQuotes::class,
+        CrawlStockCodeAndName::class,
         //
     ];
 

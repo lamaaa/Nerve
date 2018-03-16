@@ -8,21 +8,21 @@ use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
 
-class CrawlStockCodeAndStockName extends Command
+class CrawlStockCodeAndName extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'crawl:stockCodeAndStockName';
+    protected $signature = 'crawl:stockCodeAndName';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Crawl Stock Code and It\'s Name';
+    protected $description = 'Crawl Stock Code and It\'s Name And Store It In The Database';
 
     /**
      * Create a new command instance.
