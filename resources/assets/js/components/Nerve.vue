@@ -2,7 +2,7 @@
     <div id="app">
         <el-row>
             <el-col :span="3">
-                <MyNav></MyNav>
+                <myNav></myNav>
             </el-col>
             <el-col :span="21">
                 <router-view></router-view>
@@ -12,10 +12,10 @@
 </template>
 
 <script>
-    import MyNav from './MyNav.vue'
+    import myNav from './MyNav.vue'
     export default {
         components: {
-            MyNav
+            myNav
         }
     }
 </script>

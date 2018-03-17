@@ -18,17 +18,19 @@ window.Vue = require('vue');
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router';
+import WarningConfig from './pages/WarningConfig.vue';
+import ShSzStockQuotes from './pages/ShSzStockQuotes.vue';
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
+Vue.use(WarningConfig);
+Vue.use(ShSzStockQuotes);
 Vue.component('nerve', require('./components/Nerve.vue'));
 
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
 
 const routes = [
-    { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
+    { path: '/warning-config', component: WarningConfig },
+    { path: '/sh-sz-stock', component: ShSzStockQuotes}
 ]
 
 const router = new VueRouter({
