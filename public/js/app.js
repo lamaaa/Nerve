@@ -15999,6 +15999,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_ui_lib_theme_chalk_index_css__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_ui_lib_theme_chalk_index_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_element_ui_lib_theme_chalk_index_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_router__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -16020,14 +16024,15 @@ window.Vue = __webpack_require__(3);
 
 
 
+
+
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]);
+Vue.use(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default.a);
+Vue.use(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a);
 Vue.component('nerve', __webpack_require__(192));
 
-var Foo = { template: '<div>foo</div>' };
-var Bar = { template: '<div>bar</div>' };
-
-var routes = [{ path: '/foo', component: Foo }, { path: '/bar', component: Bar }];
+var routes = [{ path: '/warning-config', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default.a }, { path: '/sh-sz-stock', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
     routes: routes
@@ -91584,7 +91589,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        MyNav: __WEBPACK_IMPORTED_MODULE_0__MyNav_vue___default.a
+        myNav: __WEBPACK_IMPORTED_MODULE_0__MyNav_vue___default.a
     }
 });
 
@@ -91676,12 +91681,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {
@@ -91727,59 +91726,38 @@ var render = function() {
               _c("template", { slot: "title" }, [
                 _c("i", { staticClass: "el-icon-location" }),
                 _vm._v(" "),
-                _c("span", [_vm._v("导航一")])
+                _c("span", [_vm._v("股市行情")])
               ]),
               _vm._v(" "),
-              _c(
-                "el-menu-item-group",
-                [
-                  _c("template", { slot: "title" }, [_vm._v("分组一")]),
-                  _vm._v(" "),
-                  _c("el-menu-item", { attrs: { index: "1-1" } }, [
-                    _vm._v("选项1")
-                  ]),
-                  _vm._v(" "),
-                  _c("el-menu-item", { attrs: { index: "1-2" } }, [
-                    _vm._v("选项2")
-                  ])
-                ],
-                2
-              ),
+              _c("el-menu-item", { attrs: { index: "1-1" } }, [
+                _vm._v("沪深股市")
+              ]),
               _vm._v(" "),
-              _c(
-                "el-menu-item-group",
-                { attrs: { title: "分组二" } },
-                [
-                  _c("el-menu-item", { attrs: { index: "1-3" } }, [
-                    _vm._v("选项3")
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "el-submenu",
-                { attrs: { index: "1-4" } },
-                [
-                  _c("template", { slot: "title" }, [_vm._v("选项4")]),
-                  _vm._v(" "),
-                  _c("el-menu-item", { attrs: { index: "1-4-1" } }, [
-                    _vm._v("选项1")
-                  ])
-                ],
-                2
-              )
+              _c("el-menu-item", { attrs: { index: "1-2" } }, [_vm._v("选项2")])
             ],
             2
           ),
           _vm._v(" "),
-          _c("el-menu-item", { attrs: { index: "2" } }, [
-            _c("i", { staticClass: "el-icon-menu" }),
-            _vm._v(" "),
-            _c("span", { attrs: { slot: "title" }, slot: "title" }, [
-              _vm._v("导航二")
-            ])
-          ]),
+          _c(
+            "el-submenu",
+            { attrs: { index: "2" } },
+            [
+              _c("template", { slot: "title" }, [
+                _c("i", { staticClass: "el-icon-menu" }),
+                _vm._v(" "),
+                _c("span", [_vm._v("股票预警")])
+              ]),
+              _vm._v(" "),
+              _c("el-menu-item", { attrs: { index: "2-1" } }, [
+                _vm._v("预警设置")
+              ]),
+              _vm._v(" "),
+              _c("el-menu-item", { attrs: { index: "2-2" } }, [
+                _vm._v("预警历史")
+              ])
+            ],
+            2
+          ),
           _vm._v(" "),
           _c("el-menu-item", { attrs: { index: "3" } }, [
             _c("i", { staticClass: "el-icon-document" }),
@@ -91828,7 +91806,7 @@ var render = function() {
       _c(
         "el-row",
         [
-          _c("el-col", { attrs: { span: 3 } }, [_c("MyNav")], 1),
+          _c("el-col", { attrs: { span: 3 } }, [_c("myNav")], 1),
           _vm._v(" "),
           _c("el-col", { attrs: { span: 21 } }, [_c("router-view")], 1)
         ],
@@ -91853,6 +91831,177 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(73)
+/* script */
+var __vue_script__ = __webpack_require__(206)
+/* template */
+var __vue_template__ = __webpack_require__(207)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\pages\\WarningConfig.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-79932017", Component.options)
+  } else {
+    hotAPI.reload("data-v-79932017", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 206 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_vm._v("123")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-79932017", module.exports)
+  }
+}
+
+/***/ }),
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(73)
+/* script */
+var __vue_script__ = __webpack_require__(212)
+/* template */
+var __vue_template__ = __webpack_require__(213)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\pages\\ShSzStockQuotes.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fba3496c", Component.options)
+  } else {
+    hotAPI.reload("data-v-fba3496c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 212 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 213 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_vm._v("\n    456\n")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-fba3496c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

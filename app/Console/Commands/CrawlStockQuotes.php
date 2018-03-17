@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use App\Stock;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redis;
 
 class CrawlStockQuotes extends Command
@@ -41,7 +43,7 @@ class CrawlStockQuotes extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->initStockCodeStrArray(500);
+        $this->initStockCodeStrArray(self::STEP);
     }
 
     /**
@@ -69,6 +71,8 @@ class CrawlStockQuotes extends Command
                 $stockQuotesStr = $response->getBody()->getContents();
                 $stockQuotesStr = str_replace("\n", "", $stockQuotesStr);
                 $stockQuotesStrArray = explode(";", $stockQuotesStr);
+                // 最后一个是空
+                unset($stockQuotesStrArray[count($stockQuotesStrArray) - 1]);
                 $this->store($stockQuotesStrArray);
                 $this->info("请求第" .  $index . "个请求");
                 $this->countedAndCheckEnded();
@@ -85,12 +89,10 @@ class CrawlStockQuotes extends Command
 
     private function store($stockQuotesStrArray)
     {
+        $redisPrefix = Config::get('database.redis.default.prefix');
         foreach ($stockQuotesStrArray as $stockQuotesStr) {
-            if ($stockQuotesStr == "") {
-                continue;
-            }
             $stockQuotesData = $this->parseStockQuotesStr($stockQuotesStr);
-            Redis::hmset('nerve:stock:' . $stockQuotesData[0], $stockQuotesData[1]);
+            Redis::hmset($redisPrefix . $stockQuotesData[0], $stockQuotesData[1]);
         }
     }
 
@@ -116,7 +118,7 @@ class CrawlStockQuotes extends Command
         $stockQuotesDataArray = [];
         $stockQuotesArray = explode("=", $stockQuotesStr);
         $stockCode = str_replace("var hq_str_", "", $stockQuotesArray[0]);
-        $stockTempData = substr($stockQuotesArray[1], 1, strlen($stockQuotesArray[1]) - 1);
+        $stockTempData = str_replace("\"", "", $stockQuotesArray[1]);
 
         $stockTempDataArray = [];
         if ($stockTempData != "") {
@@ -124,13 +126,18 @@ class CrawlStockQuotes extends Command
         }
 
         $stockQuotesKeys = [
-            'name', 'todayOpening', 'yesterdayClosing', 'currentPrice', 'todayHighestPrice',
+            'todayOpening', 'yesterdayClosing', 'currentPrice', 'todayHighestPrice',
             'todayLowestPrice', 'bidPrice', 'askedPrice', 'totalVolume', 'totalAccount', 'date', 'time'
         ];
 
-        if (count($stockTempDataArray) >= 32) {
+        $stockQuotesDataArray['code'] = $stockCode;
+        $isNormalData = count($stockTempDataArray) >= 32 ?: false;
+        $stockQuotesDataArray['name'] = $isNormalData ?
+            iconv('GB2312', 'UTF-8//IGNORE', $stockTempDataArray[0])
+            : Stock::where('code', substr($stockCode, 2))->first()->name;
+        if ($isNormalData) {
             foreach ($stockQuotesKeys as $index => $stockQuotesKey) {
-                $stockQuotesDataArray[$stockQuotesKey] = $stockTempDataArray[$index];
+                $stockQuotesDataArray[$stockQuotesKey] = $stockTempDataArray[$index + 1];
                 if ($stockQuotesKey == 'date') {
                     $stockQuotesDataArray[$stockQuotesKey] = $stockTempDataArray[30];
                 }

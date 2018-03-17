@@ -4,6 +4,8 @@ namespace App\Console;
 
 use App\Console\Commands\CrawlStockCodeAndName;
 use App\Console\Commands\CrawlStockQuotes;
+use App\Stock;
+use App\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
