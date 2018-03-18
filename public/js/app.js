@@ -91583,8 +91583,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -91679,18 +91677,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    methods: {
-        handleOpen: function handleOpen(key, keyPath) {
-            console.log(key, keyPath);
-        },
-        handleClose: function handleClose(key, keyPath) {
-            console.log(key, keyPath);
-        }
-    }
+    methods: {}
 });
 
 /***/ }),
@@ -91702,81 +91691,63 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "aside",
+    "el-menu",
     {
-      staticStyle: {
-        height: "1700px",
-        "border-right": "solid 1px #e6e6e6",
-        "background-color": "#fff"
-      }
+      staticClass: "el-menu-vertical-demo",
+      attrs: { "default-active": "2", router: "" }
     },
     [
       _c(
-        "el-menu",
-        {
-          staticClass: "el-menu-vertial-demo",
-          attrs: { "default-active": "2" },
-          on: { open: _vm.handleOpen, close: _vm.handleClose }
-        },
+        "el-submenu",
+        { attrs: { index: "1" } },
         [
-          _c(
-            "el-submenu",
-            { attrs: { index: "1" } },
-            [
-              _c("template", { slot: "title" }, [
-                _c("i", { staticClass: "el-icon-location" }),
-                _vm._v(" "),
-                _c("span", [_vm._v("股市行情")])
-              ]),
-              _vm._v(" "),
-              _c("el-menu-item", { attrs: { index: "1-1" } }, [
-                _vm._v("沪深股市")
-              ]),
-              _vm._v(" "),
-              _c("el-menu-item", { attrs: { index: "1-2" } }, [_vm._v("选项2")])
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "el-submenu",
-            { attrs: { index: "2" } },
-            [
-              _c("template", { slot: "title" }, [
-                _c("i", { staticClass: "el-icon-menu" }),
-                _vm._v(" "),
-                _c("span", [_vm._v("股票预警")])
-              ]),
-              _vm._v(" "),
-              _c("el-menu-item", { attrs: { index: "2-1" } }, [
-                _vm._v("预警设置")
-              ]),
-              _vm._v(" "),
-              _c("el-menu-item", { attrs: { index: "2-2" } }, [
-                _vm._v("预警历史")
-              ])
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("el-menu-item", { attrs: { index: "3" } }, [
-            _c("i", { staticClass: "el-icon-document" }),
+          _c("template", { slot: "title" }, [
+            _c("i", { staticClass: "el-icon-location" }),
             _vm._v(" "),
-            _c("span", { attrs: { slot: "title" }, slot: "title" }, [
-              _vm._v("导航三")
-            ])
+            _c("span", [_vm._v("股市行情")])
           ]),
           _vm._v(" "),
-          _c("el-menu-item", { attrs: { index: "4" } }, [
-            _c("i", { staticClass: "el-icon-setting" }),
-            _vm._v(" "),
-            _c("span", { attrs: { slot: "title" }, slot: "title" }, [
-              _vm._v("导航四")
-            ])
-          ])
+          _c("el-menu-item", { attrs: { index: "sh-sz-stock" } }, [
+            _vm._v("沪深股市")
+          ]),
+          _vm._v(" "),
+          _c("el-menu-item", { attrs: { index: "1-2" } }, [_vm._v("选项2")])
         ],
-        1
-      )
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "el-submenu",
+        { attrs: { index: "2" } },
+        [
+          _c("template", { slot: "title" }, [
+            _c("i", { staticClass: "el-icon-menu" }),
+            _vm._v(" "),
+            _c("span", [_vm._v("股票预警")])
+          ]),
+          _vm._v(" "),
+          _c("el-menu-item", { attrs: { index: "2-1" } }, [_vm._v("预警设置")]),
+          _vm._v(" "),
+          _c("el-menu-item", { attrs: { index: "2-2" } }, [_vm._v("预警历史")])
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c("el-menu-item", { attrs: { index: "3" } }, [
+        _c("i", { staticClass: "el-icon-document" }),
+        _vm._v(" "),
+        _c("span", { attrs: { slot: "title" }, slot: "title" }, [
+          _vm._v("导航三")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("el-menu-item", { attrs: { index: "4" } }, [
+        _c("i", { staticClass: "el-icon-setting" }),
+        _vm._v(" "),
+        _c("span", { attrs: { slot: "title" }, slot: "title" }, [
+          _vm._v("导航四")
+        ])
+      ])
     ],
     1
   )
@@ -91800,18 +91771,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { attrs: { id: "app" } },
+    "el-container",
     [
-      _c(
-        "el-row",
-        [
-          _c("el-col", { attrs: { span: 3 } }, [_c("myNav")], 1),
-          _vm._v(" "),
-          _c("el-col", { attrs: { span: 21 } }, [_c("router-view")], 1)
-        ],
-        1
-      )
+      _c("el-aside", [_c("myNav")], 1),
+      _vm._v(" "),
+      _c("el-main", [_c("router-view")], 1)
     ],
     1
   )
