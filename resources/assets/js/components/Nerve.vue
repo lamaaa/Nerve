@@ -1,6 +1,7 @@
 <template>
     <el-container>
-        <el-aside>
+        <el-aside
+            width="15%">
             <myNav></myNav>
         </el-aside>
         <el-main>

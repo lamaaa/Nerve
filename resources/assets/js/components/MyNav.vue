@@ -1,8 +1,7 @@
 <template>
     <el-menu
-    default-active="2"
-    class="el-menu-vertical-demo"
     router
+    class="el-menu-vertical-all-screen"
     >
         <el-submenu index="1">
             <template slot="title">
@@ -30,6 +29,13 @@
         </el-menu-item>
     </el-menu>
 </template>
+
+<style>
+    .el-menu-vertical-all-screen {
+        height: 100%;
+    }
+
+</style>
 
 <script>
     export default {
