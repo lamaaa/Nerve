@@ -30,6 +30,9 @@ class CrawlStockQuotes extends Command
     private $counter = 1;
     private $concurrency = 5;
     private $stockCodeStrArray;
+    private $allNormalStocks;
+    private $allAbnormalStocks;
+    private $redisPrefix;
 
     // 一次获取的股票个数
     const STEP = 500;
@@ -43,6 +46,7 @@ class CrawlStockQuotes extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->redisPrefix = Config::get('database.redis.default.prefix');
         $this->initStockCodeStrArray(self::STEP);
     }
 
@@ -89,11 +93,29 @@ class CrawlStockQuotes extends Command
 
     private function store($stockQuotesStrArray)
     {
-        $redisPrefix = Config::get('database.redis.default.prefix');
+        $normalStockCodes = [];
+        $abnormalStockCodes = [];
+        $tempStockQuotesDataArray = [];
         foreach ($stockQuotesStrArray as $stockQuotesStr) {
-            $stockQuotesData = $this->parseStockQuotesStr($stockQuotesStr);
-            Redis::hmset($redisPrefix . $stockQuotesData[0], $stockQuotesData[1]);
+            list($stockStatus, $stockCode, $stockQuotesDataArray) = $this->parseStockQuotesStr($stockQuotesStr);
+            //
+            if ($stockStatus == 0) {
+                $normalStockCodes[] = $this->redisPrefix . 'stock:' . $stockCode;
+                $tempStockQuotesDataArray[] = [$stockCode, $stockQuotesDataArray];
+                $this->allNormalStocks[] = $this->redisPrefix . 'stock:' . $stockCode;
+            } else {
+                $abnormalStockCodes[] = $this->redisPrefix . 'stock:' . $stockCode;
+                $this->allAbnormalStocks[] = $this->redisPrefix . 'stock:' . $stockCode;
+            }
+//            Redis::hmset($redisPrefix . $stockQuotesData[0], $stockQuotesData[1]);
         }
+        Stock::changeStatus($normalStockCodes, Stock::NORMAL);
+        Stock::changeStatus($abnormalStockCodes, Stock::ABNORMAL);
+        Redis::pipeline(function ($pipe) use ($tempStockQuotesDataArray) {
+            foreach ($tempStockQuotesDataArray as $stockQuotesData) {
+                $pipe->hmset($this->redisPrefix . 'stock:' . $stockQuotesData[0], $stockQuotesData[1]);
+            }
+        });
     }
 
     /**
@@ -116,6 +138,7 @@ class CrawlStockQuotes extends Command
     private function parseStockQuotesStr($stockQuotesStr)
     {
         $stockQuotesDataArray = [];
+        $stockStatus = 0;
         $stockQuotesArray = explode("=", $stockQuotesStr);
         $stockCode = str_replace("var hq_str_", "", $stockQuotesArray[0]);
         $stockTempData = str_replace("\"", "", $stockQuotesArray[1]);
@@ -126,32 +149,29 @@ class CrawlStockQuotes extends Command
         }
 
         $stockQuotesKeys = [
-            'todayOpening', 'yesterdayClosing', 'currentPrice', 'todayHighestPrice',
-            'todayLowestPrice', 'bidPrice', 'askedPrice', 'totalVolume', 'totalAccount', 'date', 'time'
+            'today_opening', 'yesterday_closing', 'current_price', 'today_highest_price',
+            'today_lowest_price', 'bid_price', 'asked_price', 'total_volume', 'total_account'
         ];
 
-        $stockQuotesDataArray['code'] = $stockCode;
         $isNormalData = count($stockTempDataArray) >= 32 ?: false;
-        $stockQuotesDataArray['name'] = $isNormalData ?
-            iconv('GB2312', 'UTF-8//IGNORE', $stockTempDataArray[0])
-            : Stock::where('code', substr($stockCode, 2))->first()->name;
+        $stockQuotesDataArray['code'] = $stockCode;
+        $stockQuotesDataArray['name'] = $isNormalData ? iconv('GB2312', 'UTF-8//IGNORE', $stockTempDataArray[0]) : '';
+        $stockQuotesDataArray['datetime'] = $isNormalData ? $stockTempDataArray[30] . " " . $stockTempDataArray[31] : '';
         if ($isNormalData) {
             foreach ($stockQuotesKeys as $index => $stockQuotesKey) {
                 $stockQuotesDataArray[$stockQuotesKey] = $stockTempDataArray[$index + 1];
-                if ($stockQuotesKey == 'date') {
-                    $stockQuotesDataArray[$stockQuotesKey] = $stockTempDataArray[30];
-                }
-                if ($stockQuotesKey == 'time') {
-                    $stockQuotesDataArray[$stockQuotesKey] = $stockTempDataArray[31];
-                }
             }
         } else {
-            foreach ($stockQuotesKeys as $stockQuotesKey) {
-                $stockQuotesDataArray[$stockQuotesKey] = '-';
-            }
+            $stockStatus = 1;
         }
 
-        return [$stockCode, $stockQuotesDataArray];
+        if (isset($stockQuotesDataArray['today_opening']) && $stockQuotesDataArray['today_opening'] !== '0.000') {
+            $stockQuotesDataArray['quote_change'] = ((float)$stockQuotesDataArray['current_price'] - (float)$stockQuotesDataArray['yesterday_closing']) / (float)$stockQuotesDataArray['yesterday_closing'];
+        } else {
+            $stockQuotesDataArray['quote_change'] = 0.0000;
+        }
+
+        return [$stockStatus, $stockCode, $stockQuotesDataArray];
     }
 
     private function initStockCodeStrArray($step)
@@ -179,6 +199,8 @@ class CrawlStockQuotes extends Command
             $this->counter++;
             return;
         }
+        Redis::sadd($this->redisPrefix . 'stocks', $this->allNormalStocks);
+        Redis::srem($this->redisPrefix . 'stocks', $this->allAbnormalStocks);
         $this->info("请求结束");
     }
 }

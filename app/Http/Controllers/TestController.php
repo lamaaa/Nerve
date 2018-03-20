@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Stock;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Redis;
 
 class TestController extends Controller
 {
     public function test()
     {
-        \Artisan::call('crawl:stockQuotes');
+        $test = Redis::keys('*');
+        foreach ($test as $item) {
+            Redis::del($item);
+        }
+//        \Artisan::call('crawl:stockQuotes');
 //        $client = new Client();
 //        $url = 'http://hq.sinajs.cn/list=';
 //        $stocks = Stock::all();
