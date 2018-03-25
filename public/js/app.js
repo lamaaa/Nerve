@@ -92063,7 +92063,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -92146,7 +92145,7 @@ var render = function() {
             _c(
               "el-table",
               {
-                attrs: { data: _vm.shSzStocks, border: "", stripe: "" },
+                attrs: { data: _vm.shSzStocks, stripe: "" },
                 on: { "sort-change": _vm.sort }
               },
               [
@@ -92501,14 +92500,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {}
@@ -92572,23 +92563,7 @@ var render = function() {
           _c("el-menu-item", { attrs: { index: "2-2" } }, [_vm._v("预警历史")])
         ],
         2
-      ),
-      _vm._v(" "),
-      _c("el-menu-item", { attrs: { index: "3" } }, [
-        _c("i", { staticClass: "el-icon-document" }),
-        _vm._v(" "),
-        _c("span", { attrs: { slot: "title" }, slot: "title" }, [
-          _vm._v("导航三")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("el-menu-item", { attrs: { index: "4" } }, [
-        _c("i", { staticClass: "el-icon-setting" }),
-        _vm._v(" "),
-        _c("span", { attrs: { slot: "title" }, slot: "title" }, [
-          _vm._v("导航四")
-        ])
-      ])
+      )
     ],
     1
   )
@@ -92736,6 +92711,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -93058,13 +93036,13 @@ var render = function() {
                   expression: "loadingStockQuotes"
                 }
               ],
-              attrs: { data: _vm.stockQuotes }
+              attrs: { data: _vm.stockQuotes, stripe: "" }
             },
             [
               _c("el-table-column", { attrs: { prop: "code", label: "代码" } }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "name", label: "股票名称" }
+                attrs: { prop: "name", "min-width": "100", label: "股票名称" }
               }),
               _vm._v(" "),
               _c("el-table-column", {
@@ -93092,7 +93070,11 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "total_volume", label: "成交数量" }
+                attrs: {
+                  prop: "total_volume",
+                  "min-width": "120",
+                  label: "成交数量"
+                }
               }),
               _vm._v(" "),
               _c("el-table-column", {

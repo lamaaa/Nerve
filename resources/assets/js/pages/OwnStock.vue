@@ -16,6 +16,7 @@
         <el-row style="margin-bottom: 20px;">
             <el-table
             :data="stockQuotes"
+            stripe
             v-loading="loadingStockQuotes"
             >
                 <el-table-column
@@ -24,6 +25,7 @@
                 </el-table-column>
                 <el-table-column
                 prop="name"
+                min-width="100"
                 label="股票名称">
                 </el-table-column>
                 <el-table-column
@@ -52,6 +54,7 @@
                 </el-table-column>
                 <el-table-column
                 prop="total_volume"
+                min-width="120"
                 label="成交数量">
                 </el-table-column>
                 <el-table-column

@@ -22,14 +22,6 @@
             <el-menu-item index="warning-config">预警设置</el-menu-item>
             <el-menu-item index="2-2">预警历史</el-menu-item>
         </el-submenu>
-        <el-menu-item index="3">
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-        </el-menu-item>
     </el-menu>
 </template>
 

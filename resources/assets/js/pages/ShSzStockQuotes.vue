@@ -5,7 +5,6 @@
                 <el-table
             :data="shSzStocks"
             @sort-change="sort"
-            border
             stripe>
             <el-table-column
                 prop="code"
