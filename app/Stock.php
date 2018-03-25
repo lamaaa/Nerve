@@ -2,14 +2,26 @@
 
 namespace App;
 
+use App\Scopes\StatusScope;
+use App\Scopes\StockStatusScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
     protected $fillable = ['name', 'exchange', 'code'];
 
+    protected $hidden = ['pivot', 'status'];
+
     const NORMAL = 0;
     const ABNORMAL = 1;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new StatusScope());
+        static::addGlobalScope(new StockStatusScope());
+    }
 
     public static function changeStatus($toChangeStockCodes, $toStatus)
     {
@@ -24,5 +36,9 @@ class Stock extends Model
         }
         return false;
     }
-    //
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User')->withTimestamps();
+    }
 }

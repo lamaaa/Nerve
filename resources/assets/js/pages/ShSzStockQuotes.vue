@@ -1,7 +1,8 @@
 <template>
     <section id="shSzStocksSection">
         <el-row>
-            <el-table
+            <div style="margin: 20px 5px;">
+                <el-table
             :data="shSzStocks"
             @sort-change="sort"
             border
@@ -55,6 +56,7 @@
                 label="时间">
                 </el-table-column>
             </el-table>
+            </div>
         </el-row>
 
         <el-row>
@@ -78,10 +80,8 @@
         -moz-border-radius: 10px;
         border-radius: 10px;
         padding: 10px;
-    }
-
-    .el-row {
-        margin-bottom: 20px;
+        position: relative;
+        overflow: auto;
     }
 </style>
 
@@ -108,7 +108,7 @@
         },
         methods: {
             handleCurrentChange (page = 1) {
-                axios.get('api/stock?page=' + page + '&order=' + this.order + '&criteria=' + this.criteria)
+                axios.get('api/v1/quotes?page=' + page + '&order=' + this.order + '&criteria=' + this.criteria)
                     .then((response) => {
                         if (response.status == 200 && response.data.data != null && response.data.data.length != 0
                         && response.data.data.stocks != null && response.data.data.stocks.length != 0) {

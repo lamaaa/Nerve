@@ -20,22 +20,27 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router';
 import WarningConfig from './pages/WarningConfig.vue';
 import ShSzStockQuotes from './pages/ShSzStockQuotes.vue';
+import OwnStock from './pages/OwnStock.vue';
+
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(WarningConfig);
 Vue.use(ShSzStockQuotes);
+Vue.use(OwnStock);
 Vue.component('nerve', require('./components/Nerve.vue'));
 
 
 const routes = [
     { path: '/warning-config', component: WarningConfig },
-    { path: '/sh-sz-stock', component: ShSzStockQuotes}
-]
+    { path: '/sh-sz-stock', component: ShSzStockQuotes },
+    { path: '/own-stock', component: OwnStock },
+];
 
 const router = new VueRouter({
     routes
-})
+});
+
 const app = new Vue({
     el: '#app',
     router

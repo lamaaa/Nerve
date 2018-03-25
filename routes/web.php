@@ -20,4 +20,14 @@ Route::get('/api/test', 'StockController@test');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/api/stock', 'StockController@index');
+
+Route::group(['prefix' => 'api/v1', 'middleware' => 'auth'], function () {
+    Route::get('/quotes', 'QuoteController@index');
+    Route::get('/stocks', 'StockController@index');
+    Route::get('/users/{id}/quotes', 'UserController@getUserStockQuotes');
+    Route::post('/users/{id}/stocks', 'UserController@addStock');
+    Route::get('/users/{id}/stocks-quotes', 'UserController@getStockQuotes');
+    Route::delete('/users/{id}/stocks/{stockId}', 'UserController@deleteStock');
+    Route::get('/users/info', 'UserController@getCurrentUserInfo');
+});
+

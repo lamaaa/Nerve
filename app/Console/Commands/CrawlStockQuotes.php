@@ -140,7 +140,7 @@ class CrawlStockQuotes extends Command
         $stockQuotesDataArray = [];
         $stockStatus = 0;
         $stockQuotesArray = explode("=", $stockQuotesStr);
-        $stockCode = str_replace("var hq_str_", "", $stockQuotesArray[0]);
+        $stockCode = substr(str_replace("var hq_str_", "", $stockQuotesArray[0]), 2);
         $stockTempData = str_replace("\"", "", $stockQuotesArray[1]);
 
         $stockTempDataArray = [];

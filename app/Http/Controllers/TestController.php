@@ -10,10 +10,10 @@ class TestController extends Controller
 {
     public function test()
     {
-        $test = Redis::keys('*');
-        foreach ($test as $item) {
-            Redis::del($item);
-        }
+//        $test = Redis::keys('*');
+//        foreach ($test as $item) {
+//            Redis::del($item);
+//        }
 //        \Artisan::call('crawl:stockQuotes');
 //        $client = new Client();
 //        $url = 'http://hq.sinajs.cn/list=';

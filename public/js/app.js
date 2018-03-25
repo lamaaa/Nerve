@@ -16313,6 +16313,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue__ = __webpack_require__(221);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -16336,17 +16338,20 @@ window.Vue = __webpack_require__(3);
 
 
 
+
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a);
+Vue.use(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue___default.a);
 Vue.component('nerve', __webpack_require__(202));
 
-var routes = [{ path: '/warning-config', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default.a }, { path: '/sh-sz-stock', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }];
+var routes = [{ path: '/warning-config', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default.a }, { path: '/sh-sz-stock', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }, { path: '/own-stock', component: __WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
     routes: routes
 });
+
 var app = new Vue({
     el: '#app',
     router: router
@@ -91928,7 +91933,7 @@ exports = module.exports = __webpack_require__(24)(false);
 
 
 // module
-exports.push([module.i, "\n#shSzStocksSection {\n    background-color: #fff;\n    height: 100%;\n    border-radius: 10px;\n    padding: 10px;\n}\n.el-row {\n    margin-bottom: 20px;\n}\n", ""]);
+exports.push([module.i, "\n#shSzStocksSection {\n    background-color: #fff;\n    height: 100%;\n    border-radius: 10px;\n    padding: 10px;\n    position: relative;\n    overflow: auto;\n}\n", ""]);
 
 // exports
 
@@ -92089,7 +92094,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('api/stock?page=' + page + '&order=' + this.order + '&criteria=' + this.criteria).then(function (response) {
+            axios.get('api/v1/quotes?page=' + page + '&order=' + this.order + '&criteria=' + this.criteria).then(function (response) {
                 if (response.status == 200 && response.data.data != null && response.data.data.length != 0 && response.data.data.stocks != null && response.data.data.stocks.length != 0) {
                     var data = response.data.data;
                     _this2.shSzStocks = data.stocks;
@@ -92133,73 +92138,80 @@ var render = function() {
     "section",
     { attrs: { id: "shSzStocksSection" } },
     [
-      _c(
-        "el-row",
-        [
-          _c(
-            "el-table",
-            {
-              attrs: { data: _vm.shSzStocks, border: "", stripe: "" },
-              on: { "sort-change": _vm.sort }
-            },
-            [
-              _c("el-table-column", { attrs: { prop: "code", label: "代码" } }),
-              _vm._v(" "),
-              _c("el-table-column", { attrs: { prop: "name", label: "名称" } }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  prop: "current_price",
-                  sortable: "custom",
-                  label: "最新价"
-                }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  prop: "quote_change",
-                  sortable: "custom",
-                  label: "涨跌幅"
-                }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: { prop: "today_opening", label: "今开" }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: { prop: "yesterday_closing", label: "昨收" }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: { prop: "today_highest_price", label: "最高价" }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: { prop: "today_lowest_price", label: "最低价" }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: { prop: "total_volume", label: "成交数量" }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  prop: "total_account",
-                  "min-width": "160",
-                  label: "成交金额"
-                }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: { prop: "datetime", "min-width": "140", label: "时间" }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
+      _c("el-row", [
+        _c(
+          "div",
+          { staticStyle: { margin: "20px 5px" } },
+          [
+            _c(
+              "el-table",
+              {
+                attrs: { data: _vm.shSzStocks, border: "", stripe: "" },
+                on: { "sort-change": _vm.sort }
+              },
+              [
+                _c("el-table-column", {
+                  attrs: { prop: "code", label: "代码" }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: { prop: "name", label: "名称" }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: {
+                    prop: "current_price",
+                    sortable: "custom",
+                    label: "最新价"
+                  }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: {
+                    prop: "quote_change",
+                    sortable: "custom",
+                    label: "涨跌幅"
+                  }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: { prop: "today_opening", label: "今开" }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: { prop: "yesterday_closing", label: "昨收" }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: { prop: "today_highest_price", label: "最高价" }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: { prop: "today_lowest_price", label: "最低价" }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: { prop: "total_volume", label: "成交数量" }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: {
+                    prop: "total_account",
+                    "min-width": "160",
+                    label: "成交金额"
+                  }
+                }),
+                _vm._v(" "),
+                _c("el-table-column", {
+                  attrs: { prop: "datetime", "min-width": "140", label: "时间" }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c(
         "el-row",
@@ -92496,6 +92508,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {}
@@ -92533,6 +92546,10 @@ var render = function() {
           _vm._v(" "),
           _c("el-menu-item", { attrs: { index: "sh-sz-stock" } }, [
             _vm._v("沪深股市")
+          ]),
+          _vm._v(" "),
+          _c("el-menu-item", { attrs: { index: "own-stock" } }, [
+            _vm._v("自选股票")
           ])
         ],
         2
@@ -92665,6 +92682,478 @@ exports.push([module.i, "\n#warningConfigSection {\n    background-color: #fff;\
 
 // exports
 
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(25)
+/* script */
+var __vue_script__ = __webpack_require__(222)
+/* template */
+var __vue_template__ = __webpack_require__(223)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\pages\\OwnStock.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8f0272b2", Component.options)
+  } else {
+    hotAPI.reload("data-v-8f0272b2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 222 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            stocks: [],
+            stock: '',
+            timeout: null,
+            stockQuotes: [],
+            userId: null,
+            loadingStockQuotes: true,
+            intervalId: ''
+        };
+    },
+
+    methods: {
+        confirmDeleteStock: function confirmDeleteStock(row) {
+            var _this = this;
+
+            this.$confirm('确定删除股票 ' + row.name + ' 吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(function () {
+                _this.deleteStock(row.id);
+            }).catch(function () {});
+        },
+        deleteStock: function deleteStock(id) {
+            var _this2 = this;
+
+            if (this.userId !== null) {
+                axios.delete('/api/v1/users/' + this.userId + '/stocks/' + id).then(function (response) {
+                    if (response.status === 204 && response.data !== null) {
+                        _this2.$message.success('删除成功！');
+                        _this2.loadStockQuotesData();
+                    }
+                }).catch(function (error) {
+                    _this2.$message.error('删除失败！');
+                });
+            } else {
+                this.getUserInfo(this.deleteStock);
+            }
+        },
+        handleAddStock: function handleAddStock() {
+            var stocks = this.stocks;
+            var results = stocks.filter(this.createStockFilter(this.stock));
+            if (results !== null && results.length === 1) {
+                var stock = results[0];
+                this.addStock(stock.code);
+            } else {
+                return;
+            }
+        },
+        querySearchAsync: function querySearchAsync(queryString, cb) {
+            var stocks = this.stocks;
+            var results = [];
+            if (queryString != null && queryString.trim() !== "") {
+                results = queryString ? stocks.filter(this.createStockFilter(queryString)) : stocks;
+            }
+
+            cb(results);
+        },
+        createStockFilter: function createStockFilter(queryString) {
+            return function (stock) {
+                return stock.code.toLowerCase().indexOf(queryString.toLowerCase()) !== -1 || stock.name.toLowerCase().indexOf(queryString.toLowerCase()) !== -1;
+            };
+        },
+        handleSelect: function handleSelect(item) {
+            this.addStock(this.stock);
+            this.stock = '';
+            console.log(item);
+        },
+        addStock: function addStock(code) {
+            var _this3 = this;
+
+            if (this.userId !== null) {
+                var postData = { 'code': code };
+                axios.post('/api/v1/users/' + this.userId + '/stocks', postData).then(function (response) {
+                    if (response.status === 204 && response.data !== null) {
+                        _this3.$message.success('添加成功!');
+                        _this3.loadStockQuotesData();
+                    }
+                }).catch(function (error) {
+                    if (error !== null && error.response !== null && error.response.status === 409) {
+                        _this3.$message.error('添加失败，重复添加！');
+                    } else {
+                        _this3.$message.error('添加失败！');
+                    }
+                    console.log(error);
+                });
+            } else {
+                this.getUserInfo(this.addStock);
+            }
+        },
+        loadStockData: function loadStockData() {
+            var _this4 = this;
+
+            this.loadingStockQuotes = true;
+            axios.get('/api/v1/stocks').then(function (response) {
+                if (response.status === 200 && response.data != null && response.data.data != null && response.data.data.length != null) {
+                    _this4.stocks = response.data.data;
+                    _this4.stocks.forEach(function (stock) {
+                        stock['value'] = stock['code'];
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        getUserInfo: function getUserInfo(nextAction) {
+            var _this5 = this;
+
+            axios.get('api/v1/users/info').then(function (response) {
+                if (response.status === 200 && response.data !== null && response.data.data !== null) {
+                    var data = response.data.data;
+                    _this5.userId = data.id;
+                    nextAction();
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        loadStockQuotesData: function loadStockQuotesData() {
+            var _this6 = this;
+
+            this.loadingStockQuotes = true;
+            if (this.userId !== null) {
+                axios.get('/api/v1/users/' + this.userId + '/stocks-quotes').then(function (response) {
+                    if (response.status === 200 && response.data != null && response.data.data != null && response.data.data.length != null) {
+                        _this6.stockQuotes = response.data.data;
+                        _this6.stockQuotes.forEach(function (stockQuote) {
+                            stockQuote['quote_change'] = String((Number(stockQuote['quote_change']) * 100).toFixed(2)) + '%';
+                            stockQuote['current_price'] = Number(stockQuote['current_price']).toFixed(2);
+                            stockQuote['today_opening'] = Number(stockQuote['today_opening']).toFixed(2);
+                            stockQuote['yesterday_closing'] = Number(stockQuote['yesterday_closing']).toFixed(2);
+                            stockQuote['today_highest_price'] = Number(stockQuote['today_highest_price']).toFixed(2);
+                            stockQuote['today_lowest_price'] = Number(stockQuote['today_lowest_price']).toFixed(2);
+                            stockQuote['total_account'] = Number(stockQuote['total_account']).toFixed(2);
+                        });
+                        _this6.loadingStockQuotes = false;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            } else {
+                this.getUserInfo(this.loadStockQuotesData);
+            }
+        }
+    },
+    created: function created() {
+        var _this7 = this;
+
+        this.$nextTick(function () {
+            this.loadStockData();
+            this.loadStockQuotesData();
+        });
+        this.intervalId = setInterval(function () {
+            _this7.loadStockQuotesData();
+        }, 1000 * 60);
+    },
+    beforeDestroy: function beforeDestroy() {
+        clearInterval(this.intervalId);
+    }
+});
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    {
+      staticStyle: {
+        "background-color": "#fff",
+        position: "relative",
+        overflow: "auto",
+        height: "100%",
+        "border-radius": "10px",
+        padding: "10px",
+        "-webkit-border-radius": "10px",
+        "-moz-border-radius": "10px"
+      }
+    },
+    [
+      _c(
+        "el-row",
+        { staticStyle: { margin: "20px 20px" } },
+        [
+          _c("el-autocomplete", {
+            attrs: {
+              "fetch-suggestions": _vm.querySearchAsync,
+              placeholder: "请输入股票代码/名称"
+            },
+            on: { select: _vm.handleSelect },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _c("span", { staticStyle: { "margin-right": "20px" } }, [
+                      _vm._v(_vm._s(props.item.code))
+                    ]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(props.item.name))])
+                  ]
+                }
+              }
+            ]),
+            model: {
+              value: _vm.stock,
+              callback: function($$v) {
+                _vm.stock = $$v
+              },
+              expression: "stock"
+            }
+          }),
+          _vm._v(" "),
+          _c("el-button", { on: { click: _vm.handleAddStock } }, [
+            _vm._v("添加")
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "el-row",
+        { staticStyle: { "margin-bottom": "20px" } },
+        [
+          _c(
+            "el-table",
+            {
+              directives: [
+                {
+                  name: "loading",
+                  rawName: "v-loading",
+                  value: _vm.loadingStockQuotes,
+                  expression: "loadingStockQuotes"
+                }
+              ],
+              attrs: { data: _vm.stockQuotes }
+            },
+            [
+              _c("el-table-column", { attrs: { prop: "code", label: "代码" } }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "name", label: "股票名称" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "current_price", label: "最新价" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "quote_change", label: "涨跌幅" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "today_opening", label: "今开" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "yesterday_closing", label: "昨收" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "today_highest_price", label: "最高价" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "today_lowest_price", label: "最低价" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "total_volume", label: "成交数量" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: {
+                  prop: "total_account",
+                  "min-width": "160",
+                  label: "成交金额"
+                }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "datetime", "min-width": "140", label: "时间" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { fixed: "right", label: "操作", width: "150" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(scope) {
+                      return [
+                        _c("el-button", { attrs: { type: "text" } }, [
+                          _vm._v("添加预警")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "el-button",
+                          {
+                            attrs: { type: "text" },
+                            on: {
+                              click: function($event) {
+                                _vm.confirmDeleteStock(scope.row)
+                              }
+                            }
+                          },
+                          [_vm._v("删除")]
+                        )
+                      ]
+                    }
+                  }
+                ])
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8f0272b2", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

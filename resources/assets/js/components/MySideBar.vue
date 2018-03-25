@@ -12,6 +12,7 @@
                 <span>股市行情</span>
             </template>
             <el-menu-item index="sh-sz-stock">沪深股市</el-menu-item>
+            <el-menu-item index="own-stock">自选股票</el-menu-item>
         </el-submenu>
         <el-submenu index="2">
             <template slot="title">

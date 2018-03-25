@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\StatusScope;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -24,6 +25,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'status'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new StatusScope());
+    }
+
+    public function stocks()
+    {
+        return $this->belongsToMany('App\Stock')->withTimestamps();
+    }
 }
