@@ -72,12 +72,102 @@
                 label="操作"
                 width="150">
                     <template slot-scope="scope">
-                        <el-button type="text">添加预警</el-button>
+                        <el-button type="text" @click="handleAddWarningConfig(scope.row)">添加预警</el-button>
                         <el-button type="text" @click="confirmDeleteStock(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </el-row>
+        <el-dialog
+        title="添加预警"
+        :visible.sync="addWarningConfigDialogVisible"
+        width="500px"
+        center>
+            <el-form
+            :model="warningConfigForm"
+            label-width="120px">
+                <el-row style="margin-bottom: 30px;">
+                    <el-col :offset="1" :span="8">
+                        <h3 style="display: inline;">{{ warningConfigForm.stockName }}</h3>
+                    </el-col>
+                    <el-col :offset="2" :span="6">
+                        <label>最新价</label>
+                        <span>{{ warningConfigForm.currentPrice }}</span>
+                    </el-col>
+                    <el-col :offset="1" :span="6">
+                        <label>涨跌幅</label>
+                        <span>{{ warningConfigForm.quoteChange }}</span>
+                    </el-col>
+                </el-row>
+                <el-form-item label="当日股价涨到">
+                    <el-col :span="15">
+                        <el-input
+                        v-model="warningConfigForm.riseValue">
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-col>
+                    <el-col :offset="2" :span="7">
+                        <el-switch
+                        style="margin-top: 8px"
+                        v-model="warningConfigForm.riseValueSwitch">
+                        </el-switch>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="当日股票跌到">
+                    <el-col :span="15">
+                        <el-input
+                        v-model="warningConfigForm.fallValue">
+                            <template slot="append">元</template>
+                        </el-input>
+                    </el-col>
+                    <el-col :offset="2" :span="7">
+                        <el-switch
+                        style="margin-top: 8px"
+                        v-model="warningConfigForm.fallValueSwitch">
+                        </el-switch>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="当日涨幅超过">
+                    <el-col :span="15">
+                        <el-input
+                        v-model="warningConfigForm.riseRate">
+                            <template slot="append">%</template>
+                        </el-input>
+                    </el-col>
+                    <el-col :offset="2" :span="7">
+                        <el-switch
+                        style="margin-top: 8px"
+                        v-model="warningConfigForm.riseRateSwitch">
+                        </el-switch>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="当日跌幅超过">
+                    <el-col :span="15">
+                        <el-input
+                        v-model="warningConfigForm.fallRate">
+                            <template slot="append">%</template>
+                        </el-input>
+                    </el-col>
+                    <el-col :offset="2" :span="7">
+                        <el-switch
+                        style="margin-top: 8px"
+                        v-model="warningConfigForm.fallRateSwitch">
+                        </el-switch>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="预警方式">
+                    <el-checkbox-group
+                    v-model="warningConfigForm.checkedNotificationTypes"
+                    style="margin-top: 11px;">
+                        <el-checkbox v-for="notificationType in notificationTypes" :label="notificationType['name']" :key="notificationType['name']">{{ notificationType['description'] }}</el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="addWarningConfigDialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="addWarningConfig()">确定</el-button>
+            </span>
+        </el-dialog>
     </section>
 </template>
 
@@ -92,9 +182,112 @@
                 userId: null,
                 loadingStockQuotes: true,
                 intervalId: '',
+                addWarningConfigDialogVisible: false,
+                notificationTypes: [],
+                warningConfigs: {},
+                warningConfigForm: {
+                    stockId: '',
+                    stockName: '',
+                    currentPrice: '',
+                    quoteChange: '',
+                    riseValue: '',
+                    fallValue: '',
+                    riseRate: '',
+                    fallRate: '',
+                    riseValueSwitch: false,
+                    fallValueSwitch: false,
+                    riseRateSwitch: false,
+                    fallRateSwitch: false,
+                    checkedNotificationTypes: [],
+                }
             }
         },
         methods: {
+            addWarningConfig() {
+                if (this.userId !== null) {
+                    axios.post('/api/v1/users/' + this.userId + '/warning-configs/', this.warningConfigForm).then((response) => {
+                        if (response.status === 204 && response.data !== null) {
+                            this.$message.success('添加成功!');
+                            this.addWarningConfigDialogVisible = false;
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                        this.$message.error('添加失败');
+                    });
+                } else {
+                    this.getUserInfo(this.addWarningConfig);
+                }
+            },
+            loadWarningConfigs() {
+                if (this.userId !== null) {
+                    axios.get('/api/v1/users/' + this.userId + '/warning-configs').then((response) => {
+                        if (response.status === 200 && response.data !== null && response.data.data !== null) {
+                            this.warningConfigs = response.data.data;
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+//                    axios.get('/api/v1/users/' + this.userId + '/stocks/' + row.id + '/warning-configs').then((response) => {
+//                    if (response.status === 200 && response.data !== null && response.data.data !== null) {
+//                        this.warningConfigs = response.data.data;
+//                        let typeArray = [
+//                            {'name': 'riseValue', 'value': 1},
+//                            {'name': 'fallValue', 'value': 2},
+//                            {'name': 'riseRate', 'value': 3},
+//                            {'name': 'fallRate', 'value': 4},
+//                        ];
+//                        typeArray.forEach((type) => {
+//                            let warningConfig = data.find((warningConfig) => {
+//                                return warningConfig.type === type.value;
+//                            });
+//                            this.warningConfigForm[type.name] = warningConfig.value;
+//                            this.warningConfigForm[type.name + 'Switch'] = warningConfig.switch === 1 ? true : false;
+//                            warningConfig.notificationTypes.forEach((notificationType) => {
+//                                this.warningConfigForm.checkedNotificationTypes.push(notificationType.name);
+//                            });
+//                        });
+//                        }
+//                    }).catch((error) => {
+//                        console.log(error);
+//                    });
+                } else {
+                    this.getUserInfo(this.loadWarningConfigs);
+                }
+            },
+            setWarningConfig(row) {
+                let typeArray = [
+                    {'name': 'riseValue', 'value': 1},
+                    {'name': 'fallValue', 'value': 2},
+                    {'name': 'riseRate', 'value': 3},
+                    {'name': 'fallRate', 'value': 4},
+                ];
+                typeArray.forEach((type) => {
+                    let warningConfig = this.warningConfigs.find((warningConfig) => {
+                        return warningConfig.type === type.value && warningConfig.stock_id === row.id;
+                    });
+                    if (warningConfig != null) {
+                        this.warningConfigForm[type.name] = warningConfig.value;
+                        this.warningConfigForm[type.name + 'Switch'] = warningConfig.switch === 1 ? true : false;
+
+                        warningConfig.notificationTypes.forEach((notificationType) => {
+                            this.warningConfigForm.checkedNotificationTypes.push(notificationType.name);
+                        });
+                    } else {
+                        this.warningConfigForm[type.name] = '';
+                        this.warningConfigForm[type.name + 'Switch'] = false;
+                        this.warningConfigForm.checkedNotificationTypes = [];
+                    }
+
+                });
+            },
+            handleAddWarningConfig(row) {
+                this.warningConfigForm.stockName = row.name;
+                this.warningConfigForm.currentPrice = row.current_price;
+                this.warningConfigForm.quoteChange = row.quote_change;
+                this.warningConfigForm.stockId = row.id;
+                this.setWarningConfig(row);
+                this.addWarningConfigDialogVisible = true;
+            },
             confirmDeleteStock(row) {
                 this.$confirm('确定删除股票 ' + row.name + ' 吗？', {
                     confirmButtonText: '确定',
@@ -114,6 +307,7 @@
                             this.loadStockQuotesData();
                         }
                     }).catch((error) => {
+                        console.log(error);
                         this.$message.error('删除失败！');
                     });
                 } else {
@@ -133,7 +327,7 @@
             querySearchAsync(queryString, cb) {
                 let stocks = this.stocks;
                 let results = [];
-                if (queryString != null && queryString.trim() !== "") {
+                if (queryString !== null && queryString.trim() !== "") {
                     results = queryString ? stocks.filter(this.createStockFilter(queryString)) : stocks;
                 }
 
@@ -182,6 +376,18 @@
                     }
                 }).catch((error) => {
                     console.log(error);
+                    this.$message.error('服务器出错啦');
+                });
+            },
+            loadNotificationTypesData() {
+                axios.get('/api/v1/notification-types').then((response) => {
+                    if (response.status === 200 && response.data !== null && response.data.data !== null
+                    && response.data.data.length >= 0) {
+                        this.notificationTypes = response.data.data;
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    this.$message.error('服务器出错啦');
                 });
             },
             getUserInfo(nextAction) {
@@ -226,6 +432,8 @@
             this.$nextTick(function () {
                 this.loadStockData();
                 this.loadStockQuotesData();
+                this.loadNotificationTypesData();
+                this.loadWarningConfigs();
             });
             this.intervalId = setInterval(() => {
                 this.loadStockQuotesData();

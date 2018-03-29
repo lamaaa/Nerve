@@ -4,17 +4,14 @@
         width="15%">
             <mySideBar></mySideBar>
         </el-aside>
-        <el-main>
+        <el-main
+        style="height: calc(100% - 50px); padding: 10px;">
             <router-view></router-view>
         </el-main>
     </el-container>
 </template>
 
 <style>
-    .el-main {
-        height: calc(100% - 50px);
-        padding: 10px;
-    }
 </style>
 
 <script>

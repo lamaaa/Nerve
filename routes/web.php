@@ -29,5 +29,9 @@ Route::group(['prefix' => 'api/v1', 'middleware' => 'auth'], function () {
     Route::get('/users/{id}/stocks-quotes', 'UserController@getStockQuotes');
     Route::delete('/users/{id}/stocks/{stockId}', 'UserController@deleteStock');
     Route::get('/users/info', 'UserController@getCurrentUserInfo');
+    Route::post('/users/{id}/warning-configs', 'UserController@addWarningConfig');
+    Route::get('/users/{id}/stocks/{stockId}/warning-configs', 'UserController@getSpecifiedStockWarningConfigs');
+    Route::get('/users/{id}/warning-configs', 'UserController@getWarningConfigs');
+    Route::get('/notification-types', 'NotificationTypeController@index');
 });
 

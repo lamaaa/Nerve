@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Stock;
+use App\WarningConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redis;
@@ -87,7 +88,7 @@ class UserController extends Controller
                 'id' => 'required|in:' . $user->id
             ]);
         if ($validator->fails()) {
-            $errors = $validator->errors();
+            $errors = $validator->errors()->toArray();
             return response()->json(['errors' => $errors], 422);
         }
 
@@ -103,5 +104,91 @@ class UserController extends Controller
         $user = Auth::user();
 
         return response()->json(['data' => $user], 200);
+    }
+
+    public function addWarningConfig(Request $request, $id)
+    {
+        $user = Auth::user();
+        $validator = Validator::make(array_merge(
+            ['id' => $id],
+            $request->all()
+        ), [
+            'id' => 'required|in:' . $user->id,
+            'stockId' => 'required|exists:stocks,id',
+            'riseValue' => 'required_if:riseValueSwitch,true|integer|nullable',
+            'fallValue' => 'required_if:fallValueSwitch,true|integer|nullable',
+            'riseRate' => 'required_if:riseRateSwitch,true|integer|nullable',
+            'fallRate' => 'required_if:fallRateSwitch,true|integer|nullable',
+            'riseValueSwitch' => ['required', Rule::in([true, false])],
+            'fallValueSwitch' => ['required', Rule::in([true, false])],
+            'riseRateSwitch' => ['required', Rule::in([true, false])],
+            'fallRateSwitch' => ['required', Rule::in([true, false])],
+            'checkedNotificationTypes' => 'required|array',
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            return response()->json(['errors' => $errors], 422);
+        }
+
+        if (WarningConfig::addAndUpdateWarningConfigs($request->all())) {
+            return response()->json(null, 204);
+        }
+
+        return response()->json(['errors' => 'The server has a problem']);
+    }
+
+    public function getSpecifiedStockWarningConfigs($id, $stockId)
+    {
+        $user = Auth::user();
+        $validator = Validator::make([
+            'id' => $id,
+            'stockId' => $stockId
+        ], [
+            'id' => 'required|in:' . $id,
+            'stockId' => 'required|exists:stocks,id'
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            return response()->json(['errors' => $errors], 422);
+        }
+
+        $warningConfigs = WarningConfig::where([
+            'user_id' => $user->id,
+            'stock_id' => $stockId
+        ])->get();
+
+        $warningConfigsArray = $warningConfigs->toArray();
+        foreach ($warningConfigs as $index => $warningConfig) {
+            $warningConfigsArray[$index]['notificationTypes'] = $warningConfig->notificationTypes;
+        }
+
+        return response()->json(['data' => $warningConfigsArray], 200);
+    }
+
+    public function getWarningConfigs($id)
+    {
+        $user = Auth::user();
+        $validator = Validator::make([
+            'id' => $id,
+        ], [
+            'id' => 'required|in:' . $id,
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            return response()->json(['errors' => $errors], 422);
+        }
+
+        $warningConfigs = WarningConfig::where([
+            'user_id' => $user->id,
+        ])->get();
+
+        $warningConfigsArray = $warningConfigs->toArray();
+        foreach ($warningConfigs as $index => $warningConfig) {
+            $warningConfigsArray[$index]['notificationTypes'] = $warningConfig->notificationTypes;
+        }
+
+        return response()->json(['data' => $warningConfigsArray], 200);
     }
 }
