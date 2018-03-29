@@ -137,35 +137,6 @@ class UserController extends Controller
         return response()->json(['errors' => 'The server has a problem']);
     }
 
-    public function getSpecifiedStockWarningConfigs($id, $stockId)
-    {
-        $user = Auth::user();
-        $validator = Validator::make([
-            'id' => $id,
-            'stockId' => $stockId
-        ], [
-            'id' => 'required|in:' . $id,
-            'stockId' => 'required|exists:stocks,id'
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->toArray();
-            return response()->json(['errors' => $errors], 422);
-        }
-
-        $warningConfigs = WarningConfig::where([
-            'user_id' => $user->id,
-            'stock_id' => $stockId
-        ])->get();
-
-        $warningConfigsArray = $warningConfigs->toArray();
-        foreach ($warningConfigs as $index => $warningConfig) {
-            $warningConfigsArray[$index]['notificationTypes'] = $warningConfig->notificationTypes;
-        }
-
-        return response()->json(['data' => $warningConfigsArray], 200);
-    }
-
     public function getWarningConfigs($id)
     {
         $user = Auth::user();

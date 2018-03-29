@@ -92569,29 +92569,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }).catch(function (error) {
                     console.log(error);
                 });
-                //                    axios.get('/api/v1/users/' + this.userId + '/stocks/' + row.id + '/warning-configs').then((response) => {
-                //                    if (response.status === 200 && response.data !== null && response.data.data !== null) {
-                //                        this.warningConfigs = response.data.data;
-                //                        let typeArray = [
-                //                            {'name': 'riseValue', 'value': 1},
-                //                            {'name': 'fallValue', 'value': 2},
-                //                            {'name': 'riseRate', 'value': 3},
-                //                            {'name': 'fallRate', 'value': 4},
-                //                        ];
-                //                        typeArray.forEach((type) => {
-                //                            let warningConfig = data.find((warningConfig) => {
-                //                                return warningConfig.type === type.value;
-                //                            });
-                //                            this.warningConfigForm[type.name] = warningConfig.value;
-                //                            this.warningConfigForm[type.name + 'Switch'] = warningConfig.switch === 1 ? true : false;
-                //                            warningConfig.notificationTypes.forEach((notificationType) => {
-                //                                this.warningConfigForm.checkedNotificationTypes.push(notificationType.name);
-                //                            });
-                //                        });
-                //                        }
-                //                    }).catch((error) => {
-                //                        console.log(error);
-                //                    });
             } else {
                 this.getUserInfo(this.loadWarningConfigs);
             }
