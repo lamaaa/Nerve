@@ -91988,13 +91988,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.delete('/api/v1/warning-configs/' + id).then(function (response) {
                 if (response.status === 204) {
                     _this2.$message.success('删除成功！');
+                    _this2.loadWarningConfigsData();
                 }
             }).catch(function (error) {
                 _this2.$message.error('删除失败！');
                 console.log(error);
             });
         },
-        loadWarningConfigsData: function loadWarningConfigsData(nextAction, nextNextAction, lastData) {
+        loadWarningConfigsData: function loadWarningConfigsData() {
             var _this3 = this;
 
             this.loadingWarningConfigs = true;
@@ -92020,9 +92021,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     break;
                             }
                         });
-                        if (nextAction != null) {
-                            nextAction(nextNextAction, lastData);
-                        }
+                        _this3.assembleTableSpan();
                         _this3.loadingWarningConfigs = false;
                     }
                 }).catch(function (error) {
@@ -92032,32 +92031,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.getUserInfo(this.loadWarningConfigsData);
             }
         },
-        assembleTableSpan: function assembleTableSpan(nextAction, data) {
+        assembleTableSpan: function assembleTableSpan() {
             var _this4 = this;
 
-            if (this.warningConfigs.length !== 0) {
-                var warningConfigStockIds = [];
-                // 首先获取所有股票ID
-                this.warningConfigs.forEach(function (warningConfig) {
-                    var stockId = warningConfig.stock_id;
-                    if (warningConfigStockIds.indexOf(stockId) === -1) {
-                        warningConfigStockIds.push(stockId);
-                    }
-                });
+            var warningConfigStockIds = [];
+            this.warningConfigsNumberArray = [];
+            // 首先获取所有股票ID
+            this.warningConfigs.forEach(function (warningConfig) {
+                var stockId = warningConfig.stock_id;
+                if (warningConfigStockIds.indexOf(stockId) === -1) {
+                    warningConfigStockIds.push(stockId);
+                }
+            });
 
-                // 分别获取每只股票预警的数量
-                var key = 0;
-                warningConfigStockIds.forEach(function (warningConfigStockId) {
-                    var thisWarningConfigNumber = _this4.warningConfigs.filter(function (warningConfig) {
-                        return warningConfig.stock_id === warningConfigStockId;
-                    }).length;
-                    _this4.warningConfigsNumberArray.push({ spanRow: key, spanNum: [thisWarningConfigNumber, 1] });
-                    key = _this4.warningConfigsNumberArray[_this4.warningConfigsNumberArray.length - 1].spanRow + thisWarningConfigNumber;
-                });
-                nextAction(data);
-            } else {
-                this.loadWarningConfigsData(this.assembleTableSpan, nextAction, data);
-            }
+            // 分别获取每只股票预警的数量
+            var key = 0;
+            warningConfigStockIds.forEach(function (warningConfigStockId) {
+                var thisWarningConfigNumber = _this4.warningConfigs.filter(function (warningConfig) {
+                    return warningConfig.stock_id === warningConfigStockId;
+                }).length;
+                _this4.warningConfigsNumberArray.push({ spanRow: key, spanNum: [thisWarningConfigNumber, 1] });
+                key = _this4.warningConfigsNumberArray[_this4.warningConfigsNumberArray.length - 1].spanRow + thisWarningConfigNumber;
+            });
         },
         warningConfigSpanMethod: function warningConfigSpanMethod(data) {
             var rowIndex = data.rowIndex;
@@ -92073,8 +92068,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         return [0, 0];
                     }
                 }
-            } else {
-                this.assembleTableSpan(this.warningConfigSpanMethod, data);
             }
         },
         loadNotificationTypesData: function loadNotificationTypesData() {

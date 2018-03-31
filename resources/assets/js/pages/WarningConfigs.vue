@@ -103,13 +103,14 @@
                 axios.delete('/api/v1/warning-configs/' + id).then((response) => {
                     if (response.status === 204) {
                         this.$message.success('删除成功！');
+                        this.loadWarningConfigsData();
                     }
                 }).catch((error) => {
                     this.$message.error('删除失败！');
                     console.log(error);
                 });
             },
-            loadWarningConfigsData(nextAction, nextNextAction, lastData) {
+            loadWarningConfigsData() {
                 this.loadingWarningConfigs = true;
                 if (this.userId !== null) {
                     axios.get('/api/v1/users/' + this.userId + '/warning-configs').then((response) => {
@@ -133,9 +134,7 @@
                                         break;
                                 }
                             });
-                            if (nextAction != null) {
-                                nextAction(nextNextAction, lastData);
-                            }
+                            this.assembleTableSpan();
                             this.loadingWarningConfigs = false;
                         }
                     }).catch((error) => {
@@ -145,30 +144,26 @@
                     this.getUserInfo(this.loadWarningConfigsData);
                 }
             },
-            assembleTableSpan(nextAction, data) {
-                if (this.warningConfigs.length !== 0) {
-                    let warningConfigStockIds = [];
-                    // 首先获取所有股票ID
-                    this.warningConfigs.forEach((warningConfig) => {
-                        let stockId = warningConfig.stock_id;
-                        if (warningConfigStockIds.indexOf(stockId) === -1) {
-                            warningConfigStockIds.push(stockId);
-                        }
-                    });
+            assembleTableSpan() {
+                let warningConfigStockIds = [];
+                this.warningConfigsNumberArray = [];
+                // 首先获取所有股票ID
+                this.warningConfigs.forEach((warningConfig) => {
+                    let stockId = warningConfig.stock_id;
+                    if (warningConfigStockIds.indexOf(stockId) === -1) {
+                        warningConfigStockIds.push(stockId);
+                    }
+                });
 
-                    // 分别获取每只股票预警的数量
-                    let key = 0;
-                    warningConfigStockIds.forEach((warningConfigStockId) => {
-                        let thisWarningConfigNumber = this.warningConfigs.filter((warningConfig) => {
-                            return warningConfig.stock_id === warningConfigStockId
-                        }).length;
-                        this.warningConfigsNumberArray.push({spanRow: key, spanNum: [thisWarningConfigNumber, 1]});
-                        key = this.warningConfigsNumberArray[this.warningConfigsNumberArray.length - 1].spanRow + thisWarningConfigNumber;
-                    });
-                    nextAction(data);
-                } else {
-                    this.loadWarningConfigsData(this.assembleTableSpan, nextAction, data);
-                }
+                // 分别获取每只股票预警的数量
+                let key = 0;
+                warningConfigStockIds.forEach((warningConfigStockId) => {
+                    let thisWarningConfigNumber = this.warningConfigs.filter((warningConfig) => {
+                        return warningConfig.stock_id === warningConfigStockId
+                    }).length;
+                    this.warningConfigsNumberArray.push({spanRow: key, spanNum: [thisWarningConfigNumber, 1]});
+                    key = this.warningConfigsNumberArray[this.warningConfigsNumberArray.length - 1].spanRow + thisWarningConfigNumber;
+                });
             },
             warningConfigSpanMethod(data) {
                 let rowIndex = data.rowIndex;
@@ -184,8 +179,6 @@
                             return [0, 0];
                         }
                     }
-                } else {
-                    this.assembleTableSpan(this.warningConfigSpanMethod, data);
                 }
             },
             loadNotificationTypesData() {
