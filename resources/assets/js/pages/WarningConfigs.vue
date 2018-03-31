@@ -85,8 +85,6 @@
                 loadingWarningConfigs: true,
                 notificationTypes: [],
                 warningConfigsNumberArray: [],
-                testIndex: 0,
-                tableSpan: [],
             }
         },
         methods: {
@@ -105,7 +103,9 @@
                 axios.delete('/api/v1/warning-configs/' + id).then((response) => {
                     if (response.status === 204) {
                         this.$message.success('删除成功！');
-                        this.loadWarningConfigsData();
+                        this.warningConfigs = this.warningConfigs.filter((warningConfig) => {
+                            return warningConfig.id !== id;
+                        });
                     }
                 }).catch((error) => {
                     this.$message.error('删除失败！');
@@ -136,7 +136,6 @@
                                         break;
                                 }
                             });
-                            this.assembleTableSpan();
                             this.loadingWarningConfigs = false;
                         }
                     }).catch((error) => {
@@ -248,6 +247,13 @@
                 this.loadWarningConfigsData();
                 this.loadNotificationTypesData();
             });
+        },
+        watch: {
+            warningConfigs: function (val, oldVal) {
+                if (val.length !== 0) {
+                    this.assembleTableSpan();
+                }
+            }
         }
     }
 </script>

@@ -91966,9 +91966,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             userId: null,
             loadingWarningConfigs: true,
             notificationTypes: [],
-            warningConfigsNumberArray: [],
-            testIndex: 0,
-            tableSpan: []
+            warningConfigsNumberArray: []
         };
     },
 
@@ -91990,7 +91988,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.delete('/api/v1/warning-configs/' + id).then(function (response) {
                 if (response.status === 204) {
                     _this2.$message.success('删除成功！');
-                    _this2.loadWarningConfigsData();
+                    _this2.warningConfigs = _this2.warningConfigs.filter(function (warningConfig) {
+                        return warningConfig.id !== id;
+                    });
                 }
             }).catch(function (error) {
                 _this2.$message.error('删除失败！');
@@ -92023,7 +92023,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     break;
                             }
                         });
-                        _this3.assembleTableSpan();
                         _this3.loadingWarningConfigs = false;
                     }
                 }).catch(function (error) {
@@ -92143,6 +92142,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.loadWarningConfigsData();
             this.loadNotificationTypesData();
         });
+    },
+    watch: {
+        warningConfigs: function warningConfigs(val, oldVal) {
+            if (val.length !== 0) {
+                this.assembleTableSpan();
+            }
+        }
     }
 });
 
