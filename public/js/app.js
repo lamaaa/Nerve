@@ -92140,7 +92140,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return false;
                 }
                 var putData = { notification_types: row.notification_types };
-                debugger;
                 axios.put('/api/v1/users/' + this.userId + '/stocks/' + row.stock_id + '/notification-types', putData).then(function (response) {
                     if (response.status === 204 && response.data !== null) {
                         _this7.$message.success('修改成功！');

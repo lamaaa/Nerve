@@ -246,7 +246,6 @@
                         return false;
                     }
                     let putData = {notification_types: row.notification_types};
-                    debugger;
                     axios.put('/api/v1/users/' + this.userId + '/stocks/' + row.stock_id + '/notification-types', putData).then((response) => {
                         if (response.status === 204 && response.data !== null) {
                             this.$message.success('修改成功！');
