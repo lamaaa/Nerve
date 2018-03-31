@@ -92956,6 +92956,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -93348,32 +93357,45 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "current_price", label: "最新价" }
+                attrs: { prop: "current_price", sortable: "", label: "最新价" }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "quote_change", label: "涨跌幅" }
+                attrs: { prop: "quote_change", sortable: "", label: "涨跌幅" }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "today_opening", label: "今开" }
+                attrs: { prop: "today_opening", sortable: "", label: "今开" }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "yesterday_closing", label: "昨收" }
+                attrs: {
+                  prop: "yesterday_closing",
+                  sortable: "",
+                  label: "昨收"
+                }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "today_highest_price", label: "最高价" }
+                attrs: {
+                  prop: "today_highest_price",
+                  sortable: "",
+                  label: "最高价"
+                }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "today_lowest_price", label: "最低价" }
+                attrs: {
+                  prop: "today_lowest_price",
+                  sortable: "",
+                  label: "最低价"
+                }
               }),
               _vm._v(" "),
               _c("el-table-column", {
                 attrs: {
                   prop: "total_volume",
+                  sortable: "",
                   "min-width": "120",
                   label: "成交数量"
                 }
@@ -93382,13 +93404,19 @@ var render = function() {
               _c("el-table-column", {
                 attrs: {
                   prop: "total_account",
+                  sortable: "",
                   "min-width": "160",
                   label: "成交金额"
                 }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "datetime", "min-width": "140", label: "时间" }
+                attrs: {
+                  prop: "datetime",
+                  sortable: "",
+                  "min-width": "140",
+                  label: "时间"
+                }
               }),
               _vm._v(" "),
               _c("el-table-column", {

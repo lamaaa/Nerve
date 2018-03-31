@@ -30,40 +30,49 @@
                 </el-table-column>
                 <el-table-column
                 prop="current_price"
+                sortable
                 label="最新价">
                 </el-table-column>
                 <el-table-column
                 prop="quote_change"
+                sortable
                 label="涨跌幅">
                 </el-table-column>
                 <el-table-column
                 prop="today_opening"
+                sortable
                 label="今开">
                 </el-table-column>
                 <el-table-column
                 prop="yesterday_closing"
+                sortable
                 label="昨收">
                 </el-table-column>
                 <el-table-column
                 prop="today_highest_price"
+                sortable
                 label="最高价">
                 </el-table-column>
                 <el-table-column
                 prop="today_lowest_price"
+                sortable
                 label="最低价">
                 </el-table-column>
                 <el-table-column
                 prop="total_volume"
+                sortable
                 min-width="120"
                 label="成交数量">
                 </el-table-column>
                 <el-table-column
                 prop="total_account"
+                sortable
                 min-width="160"
                 label="成交金额">
                 </el-table-column>
                 <el-table-column
                 prop="datetime"
+                sortable
                 min-width="140"
                 label="时间">
                 </el-table-column>
