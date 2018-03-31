@@ -91836,7 +91836,7 @@ exports = module.exports = __webpack_require__(16)(false);
 
 
 // module
-exports.push([module.i, "\n#warningConfigSection {\n    background-color: #fff;\n    height: 100%;\n    border-radius: 10px;\n    padding: 10px;\n}\n", ""]);
+exports.push([module.i, "\n#warningConfigSection {\n    background-color: #fff;\n    height: 100%;\n    border-radius: 10px;\n    padding: 20px;\n    overflow: auto;\n    position: relative;\n}\n", ""]);
 
 // exports
 
@@ -91880,6 +91880,8 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //

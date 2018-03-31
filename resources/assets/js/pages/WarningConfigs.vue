@@ -70,7 +70,9 @@
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
-        padding: 10px;
+        padding: 20px;
+        overflow: auto;
+        position: relative;
     }
 </style>
 
