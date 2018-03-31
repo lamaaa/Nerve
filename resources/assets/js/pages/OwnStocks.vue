@@ -1,17 +1,29 @@
 <template>
     <section style="background-color: #fff; position: relative; overflow: auto; height: 100%; border-radius: 10px; padding: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px">
         <el-row style="margin: 20px 20px;">
-            <el-autocomplete
-            v-model="stock"
-            :fetch-suggestions="querySearchAsync"
-            placeholder="请输入股票代码/名称"
-            @select="handleSelect">
-                <template slot-scope="props">
-                    <span style="margin-right: 20px;">{{ props.item.code }}</span>
-                    <span>{{ props.item.name }}</span>
-                </template>
-            </el-autocomplete>
-            <el-button @click="handleAddStock">添加</el-button>
+            <el-col :span="8">
+                <el-autocomplete
+                v-model="stock"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="请输入股票代码/名称"
+                @select="handleSelect">
+                    <template slot-scope="props">
+                        <span style="margin-right: 20px;">{{ props.item.code }}</span>
+                        <span>{{ props.item.name }}</span>
+                    </template>
+                </el-autocomplete>
+                <el-button @click="handleAddStock">添加</el-button>
+            </el-col>
+            <el-col :offset="5" :span="6" style="margin-right: 5px;">
+                <el-input
+                v-model="stockQueryString"
+                placeholder="请输入股票代码/名称"
+                ></el-input>
+            </el-col>
+            <el-col :span="4" style="margin-right: 5px;">
+                <el-button style="margin-left: 5px;" @click="searchStockQuote">搜索</el-button>
+                <el-button type="primary" style="margin-left: 5px;" @click="resetStockQuotes">重置</el-button>
+            </el-col>
         </el-row>
         <el-row style="margin-bottom: 20px;">
             <el-table
@@ -31,11 +43,12 @@
                 <el-table-column
                 prop="current_price"
                 sortable
-                label="最新价">
+                label="最新">
                 </el-table-column>
                 <el-table-column
                 prop="quote_change"
                 sortable
+                min-width="100"
                 label="涨跌幅">
                 </el-table-column>
                 <el-table-column
@@ -51,12 +64,12 @@
                 <el-table-column
                 prop="today_highest_price"
                 sortable
-                label="最高价">
+                label="最高">
                 </el-table-column>
                 <el-table-column
                 prop="today_lowest_price"
                 sortable
-                label="最低价">
+                label="最低">
                 </el-table-column>
                 <el-table-column
                 prop="total_volume"
@@ -187,9 +200,11 @@
         data() {
             return {
                 stocks: [],
+                stockQueryString: '',
                 stock: '',
                 timeout: null,
                 stockQuotes: [],
+                rawStockQuotes: [],
                 userId: null,
                 loadingStockQuotes: true,
                 intervalId: '',
@@ -219,6 +234,18 @@
             }
         },
         methods: {
+            resetStockQuotes() {
+                this.stockQuotes = this.rawStockQuotes;
+            },
+            searchStockQuote() {
+                let queryString = this.stockQueryString.trim();
+                if (queryString === '') {
+                    return false;
+                }
+                this.stockQuotes = this.rawStockQuotes.filter((stockQuote) => {
+                    return stockQuote.code === queryString || stockQuote.name === queryString;
+                });
+            },
             addWarningConfig() {
                 this.$refs['warningConfigForm'].validate((valid) => {
                     if (!valid) {
@@ -456,6 +483,7 @@
                                 stockQuote['today_lowest_price'] = Number(stockQuote['today_lowest_price']).toFixed(2);
                                 stockQuote['total_account'] = Number(stockQuote['total_account']).toFixed(2);
                             });
+                            this.rawStockQuotes = this.stockQuotes;
                             this.loadingStockQuotes = false;
                         }
                         }).catch((error) => {

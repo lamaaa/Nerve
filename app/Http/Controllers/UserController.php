@@ -94,11 +94,20 @@ class UserController extends Controller
             return response()->json(['errors' => $errors], 422);
         }
 
-        if ($user->stocks()->detach($stockId)) {
-            return response()->json(null, 204);
-        } else {
+        $isDetached = $user->stocks()->detach($stockId);
+
+        $isUpdated = WarningConfig::where([
+            'user_id' => $user->id,
+            'stock_id' => $stockId
+        ])->update([
+            'status' => 0
+        ]);
+
+        if ($isUpdated === false || $isDetached === false) {
             return response()->json(['errors' => 'The server has a problem'], 500);
         }
+
+        return response()->json(null, 204);
     }
 
     public function getCurrentUserInfo()

@@ -1,65 +1,79 @@
 <template>
     <section id="warningConfigSection">
-        <el-table
-        border
-        :data="warningConfigs"
-        :span-method="warningConfigSpanMethod"
-        v-loading="loadingWarningConfigs">
-            <el-table-column
-            prop="stock_code"
-            label="股票代码">
-            </el-table-column>
-            <el-table-column
-            prop="stock_name"
-            label="股票名称">
-            </el-table-column>
-            <el-table-column
-            min-width="230"
-            label="预警描述">
-                <template slot-scope="scope">
-                    <el-col :offset="2" :span="20">
-                        <el-input
-                        size="10"
-                        @change="handleValueChanged(scope.row)"
-                        v-model="scope.row.value">
-                            <template slot="prepend">{{ scope.row.description }}</template>
-                            <template slot="append">时提醒我</template>
-                        </el-input>
-                    </el-col>
-                </template>
-            </el-table-column>
-            <el-table-column
-            min-width="150"
-            label="预警方式">
-                <template slot-scope="scope">
-                    <el-col :offset="2" :span="20">
-                        <el-checkbox-group
-                        @change="handleCheckedNotificationTypesChanged(scope.row)"
-                        v-model="scope.row.notification_types">
-                            <el-checkbox v-for="notificationType in notificationTypes" :label="notificationType['name']" :key="notificationType['name']">
-                                {{ notificationType['description'] }}
-                            </el-checkbox>
-                        </el-checkbox-group>
-                    </el-col>
-                </template>
-            </el-table-column>
-            <el-table-column
-                min-width="110"
-            label="操作">
-                <template slot-scope="scope">
-                    <el-col :offset="2" :span="6">
-                        <el-switch
-                        @change="handleSwitchChanged(scope.row)"
-                        style="margin-top: 9px;"
-                        v-model="scope.row.switch">
-                        </el-switch>
-                    </el-col>
-                    <el-col :offset="2" :span="8">
-                        <el-button type="text" @click="confirmDeleteWarningConfig(scope.row)">删除</el-button>
-                    </el-col>
-                </template>
-            </el-table-column>
-        </el-table>
+        <el-row style="margin: 20px 0px;">
+            <el-col :span="6" style="margin-right: 5px;">
+                <el-input
+                v-model="stockQueryString"
+                placeholder="请输入股票代码/名称"
+                ></el-input>
+            </el-col>
+            <el-col :span="4" style="margin-right: 5px;">
+                <el-button style="margin-left: 5px;" @click="searchWarningConfigs" >搜索</el-button>
+                <el-button type="primary" style="margin-left: 5px;" @click="resetWarningConfigs">重置</el-button>
+            </el-col>
+        </el-row>
+        <el-row style="margin-bottom: 20px;">
+            <el-table
+            border
+            :data="warningConfigs"
+            :span-method="warningConfigSpanMethod"
+            v-loading="loadingWarningConfigs">
+                <el-table-column
+                prop="stock_code"
+                label="股票代码">
+                </el-table-column>
+                <el-table-column
+                prop="stock_name"
+                label="股票名称">
+                </el-table-column>
+                <el-table-column
+                min-width="230"
+                label="预警描述">
+                    <template slot-scope="scope">
+                        <el-col :offset="2" :span="20">
+                            <el-input
+                            size="10"
+                            @change="handleValueChanged(scope.row)"
+                            v-model="scope.row.value">
+                                <template slot="prepend">{{ scope.row.description }}</template>
+                                <template slot="append">时提醒我</template>
+                            </el-input>
+                        </el-col>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                min-width="150"
+                label="预警方式">
+                    <template slot-scope="scope">
+                        <el-col :offset="2" :span="20">
+                            <el-checkbox-group
+                            @change="handleCheckedNotificationTypesChanged(scope.row)"
+                            v-model="scope.row.notification_types">
+                                <el-checkbox v-for="notificationType in notificationTypes" :label="notificationType['name']" :key="notificationType['name']">
+                                    {{ notificationType['description'] }}
+                                </el-checkbox>
+                            </el-checkbox-group>
+                        </el-col>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    min-width="110"
+                label="操作">
+                    <template slot-scope="scope">
+                        <el-col :offset="2" :span="6">
+                            <el-switch
+                            @change="handleSwitchChanged(scope.row)"
+                            style="margin-top: 9px;"
+                            v-model="scope.row.switch">
+                            </el-switch>
+                        </el-col>
+                        <el-col :offset="2" :span="8">
+                            <el-button type="text" @click="confirmDeleteWarningConfig(scope.row)">删除</el-button>
+                        </el-col>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-row>
     </section>
 </template>
 
@@ -80,7 +94,9 @@
     export default {
         data() {
             return {
+                stockQueryString: '',
                 warningConfigs: [],
+                rawWarningConfigs: [],
                 userId: null,
                 loadingWarningConfigs: true,
                 notificationTypes: [],
@@ -88,6 +104,18 @@
             }
         },
         methods: {
+            searchWarningConfigs() {
+                let queryString = this.stockQueryString.trim();
+                if (queryString === '') {
+                    return false;
+                }
+                this.warningConfigs = this.warningConfigs.filter((warningConfig) => {
+                    return warningConfig.stock_code === queryString || warningConfig.stock_name === queryString;
+                });
+            },
+            resetWarningConfigs() {
+                this.warningConfigs = this.rawWarningConfigs;
+            },
             confirmDeleteWarningConfig(row) {
                 this.$confirm('确定删除预警吗？', {
                     confirmButtonText: '确定',
@@ -136,6 +164,7 @@
                                         break;
                                 }
                             });
+                            this.rawWarningConfigs = this.warningConfigs;
                             this.loadingWarningConfigs = false;
                         }
                     }).catch((error) => {
@@ -217,6 +246,7 @@
                         return false;
                     }
                     let putData = {notification_types: row.notification_types};
+                    debugger;
                     axios.put('/api/v1/users/' + this.userId + '/stocks/' + row.stock_id + '/notification-types', putData).then((response) => {
                         if (response.status === 204 && response.data !== null) {
                             this.$message.success('修改成功！');

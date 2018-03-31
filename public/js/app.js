@@ -91958,11 +91958,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            stockQueryString: '',
             warningConfigs: [],
+            rawWarningConfigs: [],
             userId: null,
             loadingWarningConfigs: true,
             notificationTypes: [],
@@ -91971,6 +91987,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        searchWarningConfigs: function searchWarningConfigs() {
+            var queryString = this.stockQueryString.trim();
+            if (queryString === '') {
+                return false;
+            }
+            this.warningConfigs = this.warningConfigs.filter(function (warningConfig) {
+                return warningConfig.stock_code === queryString || warningConfig.stock_name === queryString;
+            });
+        },
+        resetWarningConfigs: function resetWarningConfigs() {
+            this.warningConfigs = this.rawWarningConfigs;
+        },
         confirmDeleteWarningConfig: function confirmDeleteWarningConfig(row) {
             var _this = this;
 
@@ -92023,6 +92051,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     break;
                             }
                         });
+                        _this3.rawWarningConfigs = _this3.warningConfigs;
                         _this3.loadingWarningConfigs = false;
                     }
                 }).catch(function (error) {
@@ -92111,6 +92140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return false;
                 }
                 var putData = { notification_types: row.notification_types };
+                debugger;
                 axios.put('/api/v1/users/' + this.userId + '/stocks/' + row.stock_id + '/notification-types', putData).then(function (response) {
                     if (response.status === 204 && response.data !== null) {
                         _this7.$message.success('修改成功！');
@@ -92165,190 +92195,254 @@ var render = function() {
     { attrs: { id: "warningConfigSection" } },
     [
       _c(
-        "el-table",
-        {
-          directives: [
-            {
-              name: "loading",
-              rawName: "v-loading",
-              value: _vm.loadingWarningConfigs,
-              expression: "loadingWarningConfigs"
-            }
-          ],
-          attrs: {
-            border: "",
-            data: _vm.warningConfigs,
-            "span-method": _vm.warningConfigSpanMethod
-          }
-        },
+        "el-row",
+        { staticStyle: { margin: "20px 0px" } },
         [
-          _c("el-table-column", {
-            attrs: { prop: "stock_code", label: "股票代码" }
-          }),
-          _vm._v(" "),
-          _c("el-table-column", {
-            attrs: { prop: "stock_name", label: "股票名称" }
-          }),
-          _vm._v(" "),
-          _c("el-table-column", {
-            attrs: { "min-width": "230", label: "预警描述" },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(scope) {
-                  return [
-                    _c(
-                      "el-col",
-                      { attrs: { offset: 2, span: 20 } },
-                      [
-                        _c(
-                          "el-input",
-                          {
-                            attrs: { size: "10" },
-                            on: {
-                              change: function($event) {
-                                _vm.handleValueChanged(scope.row)
-                              }
-                            },
-                            model: {
-                              value: scope.row.value,
-                              callback: function($$v) {
-                                _vm.$set(scope.row, "value", $$v)
-                              },
-                              expression: "scope.row.value"
-                            }
-                          },
-                          [
-                            _c("template", { slot: "prepend" }, [
-                              _vm._v(_vm._s(scope.row.description))
-                            ]),
-                            _vm._v(" "),
-                            _c("template", { slot: "append" }, [
-                              _vm._v("时提醒我")
-                            ])
-                          ],
-                          2
-                        )
-                      ],
-                      1
-                    )
-                  ]
+          _c(
+            "el-col",
+            { staticStyle: { "margin-right": "5px" }, attrs: { span: 6 } },
+            [
+              _c("el-input", {
+                attrs: { placeholder: "请输入股票代码/名称" },
+                model: {
+                  value: _vm.stockQueryString,
+                  callback: function($$v) {
+                    _vm.stockQueryString = $$v
+                  },
+                  expression: "stockQueryString"
                 }
-              }
-            ])
-          }),
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("el-table-column", {
-            attrs: { "min-width": "150", label: "预警方式" },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(scope) {
-                  return [
-                    _c(
-                      "el-col",
-                      { attrs: { offset: 2, span: 20 } },
-                      [
+          _c(
+            "el-col",
+            { staticStyle: { "margin-right": "5px" }, attrs: { span: 4 } },
+            [
+              _c(
+                "el-button",
+                {
+                  staticStyle: { "margin-left": "5px" },
+                  on: { click: _vm.searchWarningConfigs }
+                },
+                [_vm._v("搜索")]
+              ),
+              _vm._v(" "),
+              _c(
+                "el-button",
+                {
+                  staticStyle: { "margin-left": "5px" },
+                  attrs: { type: "primary" },
+                  on: { click: _vm.resetWarningConfigs }
+                },
+                [_vm._v("重置")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "el-row",
+        { staticStyle: { "margin-bottom": "20px" } },
+        [
+          _c(
+            "el-table",
+            {
+              directives: [
+                {
+                  name: "loading",
+                  rawName: "v-loading",
+                  value: _vm.loadingWarningConfigs,
+                  expression: "loadingWarningConfigs"
+                }
+              ],
+              attrs: {
+                border: "",
+                data: _vm.warningConfigs,
+                "span-method": _vm.warningConfigSpanMethod
+              }
+            },
+            [
+              _c("el-table-column", {
+                attrs: { prop: "stock_code", label: "股票代码" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { prop: "stock_name", label: "股票名称" }
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { "min-width": "230", label: "预警描述" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(scope) {
+                      return [
                         _c(
-                          "el-checkbox-group",
-                          {
-                            on: {
-                              change: function($event) {
-                                _vm.handleCheckedNotificationTypesChanged(
-                                  scope.row
-                                )
-                              }
-                            },
-                            model: {
-                              value: scope.row.notification_types,
-                              callback: function($$v) {
-                                _vm.$set(scope.row, "notification_types", $$v)
-                              },
-                              expression: "scope.row.notification_types"
-                            }
-                          },
-                          _vm._l(_vm.notificationTypes, function(
-                            notificationType
-                          ) {
-                            return _c(
-                              "el-checkbox",
+                          "el-col",
+                          { attrs: { offset: 2, span: 20 } },
+                          [
+                            _c(
+                              "el-input",
                               {
-                                key: notificationType["name"],
-                                attrs: { label: notificationType["name"] }
+                                attrs: { size: "10" },
+                                on: {
+                                  change: function($event) {
+                                    _vm.handleValueChanged(scope.row)
+                                  }
+                                },
+                                model: {
+                                  value: scope.row.value,
+                                  callback: function($$v) {
+                                    _vm.$set(scope.row, "value", $$v)
+                                  },
+                                  expression: "scope.row.value"
+                                }
                               },
                               [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(notificationType["description"]) +
-                                    "\n                        "
-                                )
-                              ]
+                                _c("template", { slot: "prepend" }, [
+                                  _vm._v(_vm._s(scope.row.description))
+                                ]),
+                                _vm._v(" "),
+                                _c("template", { slot: "append" }, [
+                                  _vm._v("时提醒我")
+                                ])
+                              ],
+                              2
                             )
-                          })
+                          ],
+                          1
                         )
-                      ],
-                      1
-                    )
-                  ]
-                }
-              }
-            ])
-          }),
-          _vm._v(" "),
-          _c("el-table-column", {
-            attrs: { "min-width": "110", label: "操作" },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(scope) {
-                  return [
-                    _c(
-                      "el-col",
-                      { attrs: { offset: 2, span: 6 } },
-                      [
-                        _c("el-switch", {
-                          staticStyle: { "margin-top": "9px" },
-                          on: {
-                            change: function($event) {
-                              _vm.handleSwitchChanged(scope.row)
-                            }
-                          },
-                          model: {
-                            value: scope.row.switch,
-                            callback: function($$v) {
-                              _vm.$set(scope.row, "switch", $$v)
-                            },
-                            expression: "scope.row.switch"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-col",
-                      { attrs: { offset: 2, span: 8 } },
-                      [
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { "min-width": "150", label: "预警方式" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(scope) {
+                      return [
                         _c(
-                          "el-button",
-                          {
-                            attrs: { type: "text" },
-                            on: {
-                              click: function($event) {
-                                _vm.confirmDeleteWarningConfig(scope.row)
-                              }
-                            }
-                          },
-                          [_vm._v("删除")]
+                          "el-col",
+                          { attrs: { offset: 2, span: 20 } },
+                          [
+                            _c(
+                              "el-checkbox-group",
+                              {
+                                on: {
+                                  change: function($event) {
+                                    _vm.handleCheckedNotificationTypesChanged(
+                                      scope.row
+                                    )
+                                  }
+                                },
+                                model: {
+                                  value: scope.row.notification_types,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      scope.row,
+                                      "notification_types",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "scope.row.notification_types"
+                                }
+                              },
+                              _vm._l(_vm.notificationTypes, function(
+                                notificationType
+                              ) {
+                                return _c(
+                                  "el-checkbox",
+                                  {
+                                    key: notificationType["name"],
+                                    attrs: { label: notificationType["name"] }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          notificationType["description"]
+                                        ) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                )
+                              })
+                            )
+                          ],
+                          1
                         )
-                      ],
-                      1
-                    )
-                  ]
-                }
-              }
-            ])
-          })
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: { "min-width": "110", label: "操作" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(scope) {
+                      return [
+                        _c(
+                          "el-col",
+                          { attrs: { offset: 2, span: 6 } },
+                          [
+                            _c("el-switch", {
+                              staticStyle: { "margin-top": "9px" },
+                              on: {
+                                change: function($event) {
+                                  _vm.handleSwitchChanged(scope.row)
+                                }
+                              },
+                              model: {
+                                value: scope.row.switch,
+                                callback: function($$v) {
+                                  _vm.$set(scope.row, "switch", $$v)
+                                },
+                                expression: "scope.row.switch"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "el-col",
+                          { attrs: { offset: 2, span: 8 } },
+                          [
+                            _c(
+                              "el-button",
+                              {
+                                attrs: { type: "text" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.confirmDeleteWarningConfig(scope.row)
+                                  }
+                                }
+                              },
+                              [_vm._v("删除")]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    }
+                  }
+                ])
+              })
+            ],
+            1
+          )
         ],
         1
       )
@@ -92965,14 +93059,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             stocks: [],
+            stockQueryString: '',
             stock: '',
             timeout: null,
             stockQuotes: [],
+            rawStockQuotes: [],
             userId: null,
             loadingStockQuotes: true,
             intervalId: '',
@@ -93001,6 +93110,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        resetStockQuotes: function resetStockQuotes() {
+            this.stockQuotes = this.rawStockQuotes;
+        },
+        searchStockQuote: function searchStockQuote() {
+            var queryString = this.stockQueryString.trim();
+            if (queryString === '') {
+                return false;
+            }
+            this.stockQuotes = this.rawStockQuotes.filter(function (stockQuote) {
+                return stockQuote.code === queryString || stockQuote.name === queryString;
+            });
+        },
         addWarningConfig: function addWarningConfig() {
             var _this = this;
 
@@ -93241,6 +93362,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             stockQuote['today_lowest_price'] = Number(stockQuote['today_lowest_price']).toFixed(2);
                             stockQuote['total_account'] = Number(stockQuote['total_account']).toFixed(2);
                         });
+                        _this10.rawStockQuotes = _this10.stockQuotes;
                         _this10.loadingStockQuotes = false;
                     }
                 }).catch(function (error) {
@@ -93296,38 +93418,94 @@ var render = function() {
         "el-row",
         { staticStyle: { margin: "20px 20px" } },
         [
-          _c("el-autocomplete", {
-            attrs: {
-              "fetch-suggestions": _vm.querySearchAsync,
-              placeholder: "请输入股票代码/名称"
-            },
-            on: { select: _vm.handleSelect },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(props) {
-                  return [
-                    _c("span", { staticStyle: { "margin-right": "20px" } }, [
-                      _vm._v(_vm._s(props.item.code))
-                    ]),
-                    _vm._v(" "),
-                    _c("span", [_vm._v(_vm._s(props.item.name))])
-                  ]
+          _c(
+            "el-col",
+            { attrs: { span: 8 } },
+            [
+              _c("el-autocomplete", {
+                attrs: {
+                  "fetch-suggestions": _vm.querySearchAsync,
+                  placeholder: "请输入股票代码/名称"
+                },
+                on: { select: _vm.handleSelect },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [
+                        _c(
+                          "span",
+                          { staticStyle: { "margin-right": "20px" } },
+                          [_vm._v(_vm._s(props.item.code))]
+                        ),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(props.item.name))])
+                      ]
+                    }
+                  }
+                ]),
+                model: {
+                  value: _vm.stock,
+                  callback: function($$v) {
+                    _vm.stock = $$v
+                  },
+                  expression: "stock"
                 }
-              }
-            ]),
-            model: {
-              value: _vm.stock,
-              callback: function($$v) {
-                _vm.stock = $$v
-              },
-              expression: "stock"
-            }
-          }),
+              }),
+              _vm._v(" "),
+              _c("el-button", { on: { click: _vm.handleAddStock } }, [
+                _vm._v("添加")
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("el-button", { on: { click: _vm.handleAddStock } }, [
-            _vm._v("添加")
-          ])
+          _c(
+            "el-col",
+            {
+              staticStyle: { "margin-right": "5px" },
+              attrs: { offset: 5, span: 6 }
+            },
+            [
+              _c("el-input", {
+                attrs: { placeholder: "请输入股票代码/名称" },
+                model: {
+                  value: _vm.stockQueryString,
+                  callback: function($$v) {
+                    _vm.stockQueryString = $$v
+                  },
+                  expression: "stockQueryString"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-col",
+            { staticStyle: { "margin-right": "5px" }, attrs: { span: 4 } },
+            [
+              _c(
+                "el-button",
+                {
+                  staticStyle: { "margin-left": "5px" },
+                  on: { click: _vm.searchStockQuote }
+                },
+                [_vm._v("搜索")]
+              ),
+              _vm._v(" "),
+              _c(
+                "el-button",
+                {
+                  staticStyle: { "margin-left": "5px" },
+                  attrs: { type: "primary" },
+                  on: { click: _vm.resetStockQuotes }
+                },
+                [_vm._v("重置")]
+              )
+            ],
+            1
+          )
         ],
         1
       ),
@@ -93357,11 +93535,16 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "current_price", sortable: "", label: "最新价" }
+                attrs: { prop: "current_price", sortable: "", label: "最新" }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { prop: "quote_change", sortable: "", label: "涨跌幅" }
+                attrs: {
+                  prop: "quote_change",
+                  sortable: "",
+                  "min-width": "100",
+                  label: "涨跌幅"
+                }
               }),
               _vm._v(" "),
               _c("el-table-column", {
@@ -93380,7 +93563,7 @@ var render = function() {
                 attrs: {
                   prop: "today_highest_price",
                   sortable: "",
-                  label: "最高价"
+                  label: "最高"
                 }
               }),
               _vm._v(" "),
@@ -93388,7 +93571,7 @@ var render = function() {
                 attrs: {
                   prop: "today_lowest_price",
                   sortable: "",
-                  label: "最低价"
+                  label: "最低"
                 }
               }),
               _vm._v(" "),
