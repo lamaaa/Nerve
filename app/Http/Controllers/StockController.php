@@ -22,8 +22,4 @@ class StockController extends Controller
         return response()->json(['data' => $stocks], 200);
     }
 
-    public function quotes(Request $request)
-    {
-
-    }
 }

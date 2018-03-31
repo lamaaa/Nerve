@@ -16309,12 +16309,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_ui_lib_theme_chalk_index_css__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_ui_lib_theme_chalk_index_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_element_ui_lib_theme_chalk_index_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_router__ = __webpack_require__(192);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue__ = __webpack_require__(204);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -16341,12 +16341,12 @@ window.Vue = __webpack_require__(3);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]);
-Vue.use(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default.a);
+Vue.use(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a);
-Vue.use(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue___default.a);
+Vue.use(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a);
 Vue.component('nerve', __webpack_require__(207));
 
-var routes = [{ path: '/warning-config', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfig_vue___default.a }, { path: '/sh-sz-stock', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }, { path: '/own-stock', component: __WEBPACK_IMPORTED_MODULE_5__pages_OwnStock_vue___default.a }];
+var routes = [{ path: '/warning-configs', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default.a }, { path: '/sh-sz-stocks', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }, { path: '/own-stocks', component: __WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
     routes: routes
@@ -91780,7 +91780,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\pages\\WarningConfig.vue"
+Component.options.__file = "resources\\assets\\js\\pages\\WarningConfigs.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -91789,9 +91789,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-79932017", Component.options)
+    hotAPI.createRecord("data-v-8706f828", Component.options)
   } else {
-    hotAPI.reload("data-v-79932017", Component.options)
+    hotAPI.reload("data-v-8706f828", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -91812,13 +91812,13 @@ var content = __webpack_require__(195);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(26)("37509ad2", content, false, {});
+var update = __webpack_require__(26)("5eaa4cb8", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-79932017\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WarningConfig.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-79932017\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WarningConfig.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8706f828\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WarningConfigs.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8706f828\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WarningConfigs.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -91897,8 +91897,259 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            warningConfigs: [],
+            userId: null,
+            loadingWarningConfigs: true,
+            notificationTypes: [],
+            warningConfigsNumberArray: [],
+            testIndex: 0,
+            tableSpan: []
+        };
+    },
+
+    methods: {
+        confirmDeleteWarningConfig: function confirmDeleteWarningConfig(row) {
+            var _this = this;
+
+            this.$confirm('确定删除预警吗？', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(function () {
+                _this.deleteWarningConfig(row.id);
+            }).catch(function () {});
+        },
+        deleteWarningConfig: function deleteWarningConfig(id) {
+            var _this2 = this;
+
+            axios.delete('/api/v1/warning-configs/' + id).then(function (response) {
+                if (response.status === 204) {
+                    _this2.$message.success('删除成功！');
+                }
+            }).catch(function (error) {
+                _this2.$message.error('删除失败！');
+                console.log(error);
+            });
+        },
+        loadWarningConfigsData: function loadWarningConfigsData(nextAction, nextNextAction, lastData) {
+            var _this3 = this;
+
+            this.loadingWarningConfigs = true;
+            if (this.userId !== null) {
+                axios.get('/api/v1/users/' + this.userId + '/warning-configs').then(function (response) {
+                    if (response.status === 200 && response.data !== null && response.data.data !== null) {
+                        _this3.warningConfigs = response.data.data;
+                        _this3.warningConfigs.forEach(function (warningConfig) {
+                            warningConfig.switch = warningConfig.switch === 1 ? true : false;
+                            warningConfig.checkedNotificationTypes = [];
+                            switch (warningConfig.type) {
+                                case 1:
+                                    warningConfig.description = '当日股价涨到';
+                                    break;
+                                case 2:
+                                    warningConfig.description = '当日股价跌到';
+                                    break;
+                                case 3:
+                                    warningConfig.description = '当日涨幅超过';
+                                    break;
+                                case 4:
+                                    warningConfig.description = '当日跌幅超过';
+                                    break;
+                            }
+                        });
+                        if (nextAction != null) {
+                            nextAction(nextNextAction, lastData);
+                        }
+                        _this3.loadingWarningConfigs = false;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            } else {
+                this.getUserInfo(this.loadWarningConfigsData);
+            }
+        },
+        assembleTableSpan: function assembleTableSpan(nextAction, data) {
+            var _this4 = this;
+
+            if (this.warningConfigs.length !== 0) {
+                var warningConfigStockIds = [];
+                // 首先获取所有股票ID
+                this.warningConfigs.forEach(function (warningConfig) {
+                    var stockId = warningConfig.stock_id;
+                    if (warningConfigStockIds.indexOf(stockId) === -1) {
+                        warningConfigStockIds.push(stockId);
+                    }
+                });
+
+                // 分别获取每只股票预警的数量
+                var key = 0;
+                warningConfigStockIds.forEach(function (warningConfigStockId) {
+                    var thisWarningConfigNumber = _this4.warningConfigs.filter(function (warningConfig) {
+                        return warningConfig.stock_id === warningConfigStockId;
+                    }).length;
+                    _this4.warningConfigsNumberArray.push({ spanRow: key, spanNum: [thisWarningConfigNumber, 1] });
+                    key = _this4.warningConfigsNumberArray[_this4.warningConfigsNumberArray.length - 1].spanRow + thisWarningConfigNumber;
+                });
+                nextAction(data);
+            } else {
+                this.loadWarningConfigsData(this.assembleTableSpan, nextAction, data);
+            }
+        },
+        warningConfigSpanMethod: function warningConfigSpanMethod(data) {
+            var rowIndex = data.rowIndex;
+            var columnIndex = data.columnIndex;
+            if (this.warningConfigsNumberArray.length !== 0) {
+                if (columnIndex === 0 || columnIndex === 1 || columnIndex === 3) {
+                    var warningConfigsNumber = this.warningConfigsNumberArray.find(function (warningConfigsNumber) {
+                        return warningConfigsNumber.spanRow === rowIndex;
+                    });
+                    if (warningConfigsNumber != null) {
+                        return warningConfigsNumber.spanNum;
+                    } else {
+                        return [0, 0];
+                    }
+                }
+            } else {
+                this.assembleTableSpan(this.warningConfigSpanMethod, data);
+            }
+        },
+        loadNotificationTypesData: function loadNotificationTypesData() {
+            var _this5 = this;
+
+            axios.get('/api/v1/notification-types').then(function (response) {
+                if (response.status === 200 && response.data !== null && response.data.data !== null && response.data.data.length >= 0) {
+                    _this5.notificationTypes = response.data.data;
+                }
+            }).catch(function (error) {
+                console.log(error);
+                _this5.$message.error('服务器出错啦');
+            });
+        },
+        handleSwitchChanged: function handleSwitchChanged(row) {
+            this.handleValueChanged(row);
+        },
+        handleValueChanged: function handleValueChanged(row) {
+            var _this6 = this;
+
+            var putData = {
+                'id': row.id,
+                'value': row.value,
+                'switch': row.switch
+            };
+            axios.put('/api/v1/warning-configs', putData).then(function (response) {
+                if (response.status === 204) {
+                    _this6.$message.success('修改成功！');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        handleCheckedNotificationTypesChanged: function handleCheckedNotificationTypesChanged(row) {
+            var _this7 = this;
+
+            if (this.userId !== null) {
+                if (row.notification_types.length === 0) {
+                    this.$message.error('请至少选择一种预警方式噢');
+                    return false;
+                }
+                var putData = { notification_types: row.notification_types };
+                axios.put('/api/v1/users/' + this.userId + '/stocks/' + row.stock_id + '/notification-types', putData).then(function (response) {
+                    if (response.status === 204 && response.data !== null) {
+                        _this7.$message.success('修改成功！');
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                    _this7.$message.error('修改失败！');
+                });
+            } else {
+                this.getUserInfo(this.handleCheckedNotificationTypesChanged);
+            }
+        },
+        getUserInfo: function getUserInfo(nextAction) {
+            var _this8 = this;
+
+            axios.get('api/v1/users/info').then(function (response) {
+                if (response.status === 200 && response.data !== null && response.data.data !== null) {
+                    var data = response.data.data;
+                    _this8.userId = data.id;
+                    nextAction();
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
+    created: function created() {
+        this.$nextTick(function () {
+            this.loadWarningConfigsData();
+            this.loadNotificationTypesData();
+        });
+    }
+});
 
 /***/ }),
 /* 198 */
@@ -91908,7 +92159,201 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "warningConfigSection" } })
+  return _c(
+    "section",
+    { attrs: { id: "warningConfigSection" } },
+    [
+      _c(
+        "el-table",
+        {
+          directives: [
+            {
+              name: "loading",
+              rawName: "v-loading",
+              value: _vm.loadingWarningConfigs,
+              expression: "loadingWarningConfigs"
+            }
+          ],
+          attrs: {
+            border: "",
+            data: _vm.warningConfigs,
+            "span-method": _vm.warningConfigSpanMethod
+          }
+        },
+        [
+          _c("el-table-column", {
+            attrs: { prop: "stock_code", label: "股票代码" }
+          }),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { prop: "stock_name", label: "股票名称" }
+          }),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { "min-width": "230", label: "预警描述" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(scope) {
+                  return [
+                    _c(
+                      "el-col",
+                      { attrs: { offset: 2, span: 20 } },
+                      [
+                        _c(
+                          "el-input",
+                          {
+                            attrs: { size: "10" },
+                            on: {
+                              change: function($event) {
+                                _vm.handleValueChanged(scope.row)
+                              }
+                            },
+                            model: {
+                              value: scope.row.value,
+                              callback: function($$v) {
+                                _vm.$set(scope.row, "value", $$v)
+                              },
+                              expression: "scope.row.value"
+                            }
+                          },
+                          [
+                            _c("template", { slot: "prepend" }, [
+                              _vm._v(_vm._s(scope.row.description))
+                            ]),
+                            _vm._v(" "),
+                            _c("template", { slot: "append" }, [
+                              _vm._v("时提醒我")
+                            ])
+                          ],
+                          2
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { "min-width": "150", label: "预警方式" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(scope) {
+                  return [
+                    _c(
+                      "el-col",
+                      { attrs: { offset: 2, span: 20 } },
+                      [
+                        _c(
+                          "el-checkbox-group",
+                          {
+                            on: {
+                              change: function($event) {
+                                _vm.handleCheckedNotificationTypesChanged(
+                                  scope.row
+                                )
+                              }
+                            },
+                            model: {
+                              value: scope.row.notification_types,
+                              callback: function($$v) {
+                                _vm.$set(scope.row, "notification_types", $$v)
+                              },
+                              expression: "scope.row.notification_types"
+                            }
+                          },
+                          _vm._l(_vm.notificationTypes, function(
+                            notificationType
+                          ) {
+                            return _c(
+                              "el-checkbox",
+                              {
+                                key: notificationType["name"],
+                                attrs: { label: notificationType["name"] }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(notificationType["description"]) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          })
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { "min-width": "110", label: "操作" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(scope) {
+                  return [
+                    _c(
+                      "el-col",
+                      { attrs: { offset: 2, span: 6 } },
+                      [
+                        _c("el-switch", {
+                          staticStyle: { "margin-top": "9px" },
+                          on: {
+                            change: function($event) {
+                              _vm.handleSwitchChanged(scope.row)
+                            }
+                          },
+                          model: {
+                            value: scope.row.switch,
+                            callback: function($$v) {
+                              _vm.$set(scope.row, "switch", $$v)
+                            },
+                            expression: "scope.row.switch"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "el-col",
+                      { attrs: { offset: 2, span: 8 } },
+                      [
+                        _c(
+                          "el-button",
+                          {
+                            attrs: { type: "text" },
+                            on: {
+                              click: function($event) {
+                                _vm.confirmDeleteWarningConfig(scope.row)
+                              }
+                            }
+                          },
+                          [_vm._v("删除")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
+              }
+            ])
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -91916,7 +92361,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-79932017", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-8706f828", module.exports)
   }
 }
 
@@ -92308,7 +92753,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\pages\\OwnStock.vue"
+Component.options.__file = "resources\\assets\\js\\pages\\OwnStocks.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -92317,9 +92762,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8f0272b2", Component.options)
+    hotAPI.createRecord("data-v-5b05af5c", Component.options)
   } else {
-    hotAPI.reload("data-v-8f0272b2", Component.options)
+    hotAPI.reload("data-v-5b05af5c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -92508,6 +92953,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -92521,7 +92968,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             intervalId: '',
             addWarningConfigDialogVisible: false,
             notificationTypes: [],
-            warningConfigs: {},
+            warningConfigs: [],
+            rules: {
+                checkedNotificationTypes: [{ required: true, message: '请至少选择一种预警方式', trigger: 'change' }]
+            },
             warningConfigForm: {
                 stockId: '',
                 stockName: '',
@@ -92544,11 +92994,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addWarningConfig: function addWarningConfig() {
             var _this = this;
 
+            this.$refs['warningConfigForm'].validate(function (valid) {
+                if (!valid) {
+                    return false;
+                }
+            });
             if (this.userId !== null) {
                 axios.post('/api/v1/users/' + this.userId + '/warning-configs/', this.warningConfigForm).then(function (response) {
                     if (response.status === 204 && response.data !== null) {
-                        _this.$message.success('添加成功!');
+                        var typeArray = [{ 'name': 'riseValue', 'value': 1 }, { 'name': 'fallValue', 'value': 2 }, { 'name': 'riseRate', 'value': 3 }, { 'name': 'fallRate', 'value': 4 }];
+                        typeArray.forEach(function (type) {
+                            var warningConfig = _this.warningConfigs.find(function (warningConfig) {
+                                return warningConfig.type === type.value && warningConfig.stock_id === _this.warningConfigForm.stockId;
+                            });
+                            if (warningConfig != null) {
+                                warningConfig.value = _this.warningConfigForm[type.name];
+                                warningConfig.switch = _this.warningConfigForm[type.name + 'Switch'] === true ? 1 : 0;
+                            } else {
+                                _this.warningConfigs.push({
+                                    value: _this.warningConfigForm[type.name],
+                                    switch: _this.warningConfigForm[type.name + 'Switch'] === true ? 1 : 0,
+                                    status: 1,
+                                    stock_id: _this.warningConfigForm.stockId,
+                                    stock_name: _this.warningConfigForm.stockName,
+                                    type: type.value
+                                });
+                            }
+                        });
                         _this.addWarningConfigDialogVisible = false;
+                        var changedNotificationTypes = [];
+                        var stockQuote = _this.stockQuotes.find(function (stockQuote) {
+                            return stockQuote.id === _this.warningConfigForm.stockId;
+                        });
+                        _this.warningConfigForm.checkedNotificationTypes.forEach(function (checkNotificationType) {
+                            switch (checkNotificationType) {
+                                case 'email':
+                                    changedNotificationTypes.push({ name: 'email', description: '邮箱' });
+                                    break;
+                                case 'sms':
+                                    changedNotificationTypes.push({ name: 'sms', description: '短信' });
+                                    break;
+                            }
+                        });
+                        stockQuote.notificationTypes = changedNotificationTypes;
+                        _this.$message.success('添加成功!');
                     }
                 }).catch(function (error) {
                     console.log(error);
@@ -92558,7 +93047,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.getUserInfo(this.addWarningConfig);
             }
         },
-        loadWarningConfigs: function loadWarningConfigs() {
+        loadWarningConfigsData: function loadWarningConfigsData() {
             var _this2 = this;
 
             if (this.userId !== null) {
@@ -92570,7 +93059,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     console.log(error);
                 });
             } else {
-                this.getUserInfo(this.loadWarningConfigs);
+                this.getUserInfo(this.loadWarningConfigsData);
             }
         },
         setWarningConfig: function setWarningConfig(row) {
@@ -92584,14 +93073,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (warningConfig != null) {
                     _this3.warningConfigForm[type.name] = warningConfig.value;
                     _this3.warningConfigForm[type.name + 'Switch'] = warningConfig.switch === 1 ? true : false;
-
-                    warningConfig.notificationTypes.forEach(function (notificationType) {
+                    _this3.warningConfigForm.checkedNotificationTypes = [];
+                    row.notificationTypes.forEach(function (notificationType) {
                         _this3.warningConfigForm.checkedNotificationTypes.push(notificationType.name);
                     });
                 } else {
                     _this3.warningConfigForm[type.name] = '';
                     _this3.warningConfigForm[type.name + 'Switch'] = false;
-                    _this3.warningConfigForm.checkedNotificationTypes = [];
                 }
             });
         },
@@ -92600,6 +93088,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.warningConfigForm.currentPrice = row.current_price;
             this.warningConfigForm.quoteChange = row.quote_change;
             this.warningConfigForm.stockId = row.id;
+
             this.setWarningConfig(row);
             this.addWarningConfigDialogVisible = true;
         },
@@ -92757,7 +93246,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.loadStockData();
             this.loadStockQuotesData();
             this.loadNotificationTypesData();
-            this.loadWarningConfigs();
+            this.loadWarningConfigsData();
         });
         this.intervalId = setInterval(function () {
             _this11.loadStockQuotesData();
@@ -92961,7 +93450,14 @@ var render = function() {
         [
           _c(
             "el-form",
-            { attrs: { model: _vm.warningConfigForm, "label-width": "120px" } },
+            {
+              ref: "warningConfigForm",
+              attrs: {
+                model: _vm.warningConfigForm,
+                rules: _vm.rules,
+                "label-width": "120px"
+              }
+            },
             [
               _c(
                 "el-row",
@@ -92994,7 +93490,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
-                { attrs: { label: "当日股价涨到" } },
+                { attrs: { label: "当日股价涨到", prop: "riseValue" } },
                 [
                   _c(
                     "el-col",
@@ -93045,7 +93541,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
-                { attrs: { label: "当日股票跌到" } },
+                { attrs: { label: "当日股价跌到", prop: "fallValue" } },
                 [
                   _c(
                     "el-col",
@@ -93096,7 +93592,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
-                { attrs: { label: "当日涨幅超过" } },
+                { attrs: { label: "当日涨幅超过", prop: "riseRate" } },
                 [
                   _c(
                     "el-col",
@@ -93147,7 +93643,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
-                { attrs: { label: "当日跌幅超过" } },
+                { attrs: { label: "当日跌幅超过", prop: "fallRate" } },
                 [
                   _c(
                     "el-col",
@@ -93198,7 +93694,9 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
-                { attrs: { label: "预警方式" } },
+                {
+                  attrs: { label: "预警方式", prop: "checkedNotificationTypes" }
+                },
                 [
                   _c(
                     "el-checkbox-group",
@@ -93282,7 +93780,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-8f0272b2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-5b05af5c", module.exports)
   }
 }
 
@@ -93576,11 +94074,11 @@ var render = function() {
             _c("span", [_vm._v("股市行情")])
           ]),
           _vm._v(" "),
-          _c("el-menu-item", { attrs: { index: "sh-sz-stock" } }, [
+          _c("el-menu-item", { attrs: { index: "sh-sz-stocks" } }, [
             _vm._v("沪深股市")
           ]),
           _vm._v(" "),
-          _c("el-menu-item", { attrs: { index: "own-stock" } }, [
+          _c("el-menu-item", { attrs: { index: "own-stocks" } }, [
             _vm._v("自选股票")
           ])
         ],
@@ -93597,7 +94095,7 @@ var render = function() {
             _c("span", [_vm._v("股票预警")])
           ]),
           _vm._v(" "),
-          _c("el-menu-item", { attrs: { index: "warning-config" } }, [
+          _c("el-menu-item", { attrs: { index: "warning-configs" } }, [
             _vm._v("预警设置")
           ]),
           _vm._v(" "),

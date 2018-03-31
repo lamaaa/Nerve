@@ -32,5 +32,8 @@ Route::group(['prefix' => 'api/v1', 'middleware' => 'auth'], function () {
     Route::post('/users/{id}/warning-configs', 'UserController@addWarningConfig');
     Route::get('/users/{id}/warning-configs', 'UserController@getWarningConfigs');
     Route::get('/notification-types', 'NotificationTypeController@index');
+    Route::put('/users/{id}/stocks/{stockId}/notification-types', 'UserController@updateSpeciedStockNotificationTypes');
+    Route::put('/warning-configs', 'WarningConfigController@updateWarningConfig');
+    Route::delete('/warning-configs/{warningConfigId}', 'WarningConfigController@deleteWarningConfig');
 });
 

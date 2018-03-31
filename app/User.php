@@ -39,4 +39,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Stock')->withTimestamps();
     }
+
+    public function warningConfigs()
+    {
+        return $this->hasMany('App\WarningConfig');
+    }
 }

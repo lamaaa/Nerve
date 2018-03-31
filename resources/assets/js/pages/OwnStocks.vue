@@ -85,6 +85,8 @@
         center>
             <el-form
             :model="warningConfigForm"
+            :rules="rules"
+            ref="warningConfigForm"
             label-width="120px">
                 <el-row style="margin-bottom: 30px;">
                     <el-col :offset="1" :span="8">
@@ -99,7 +101,7 @@
                         <span>{{ warningConfigForm.quoteChange }}</span>
                     </el-col>
                 </el-row>
-                <el-form-item label="当日股价涨到">
+                <el-form-item label="当日股价涨到" prop="riseValue">
                     <el-col :span="15">
                         <el-input
                         v-model="warningConfigForm.riseValue">
@@ -113,7 +115,7 @@
                         </el-switch>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="当日股票跌到">
+                <el-form-item label="当日股价跌到" prop="fallValue">
                     <el-col :span="15">
                         <el-input
                         v-model="warningConfigForm.fallValue">
@@ -127,7 +129,7 @@
                         </el-switch>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="当日涨幅超过">
+                <el-form-item label="当日涨幅超过" prop="riseRate">
                     <el-col :span="15">
                         <el-input
                         v-model="warningConfigForm.riseRate">
@@ -141,7 +143,7 @@
                         </el-switch>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="当日跌幅超过">
+                <el-form-item label="当日跌幅超过" prop="fallRate">
                     <el-col :span="15">
                         <el-input
                         v-model="warningConfigForm.fallRate">
@@ -155,7 +157,7 @@
                         </el-switch>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="预警方式">
+                <el-form-item label="预警方式" prop="checkedNotificationTypes">
                     <el-checkbox-group
                     v-model="warningConfigForm.checkedNotificationTypes"
                     style="margin-top: 11px;">
@@ -184,7 +186,12 @@
                 intervalId: '',
                 addWarningConfigDialogVisible: false,
                 notificationTypes: [],
-                warningConfigs: {},
+                warningConfigs: [],
+                rules: {
+                    checkedNotificationTypes: [
+                        {required: true, message: '请至少选择一种预警方式', trigger: 'change'}
+                    ]
+                },
                 warningConfigForm: {
                     stockId: '',
                     stockName: '',
@@ -204,11 +211,55 @@
         },
         methods: {
             addWarningConfig() {
+                this.$refs['warningConfigForm'].validate((valid) => {
+                    if (!valid) {
+                        return false;
+                    }
+                });
                 if (this.userId !== null) {
                     axios.post('/api/v1/users/' + this.userId + '/warning-configs/', this.warningConfigForm).then((response) => {
                         if (response.status === 204 && response.data !== null) {
-                            this.$message.success('添加成功!');
+                            let typeArray = [
+                                {'name': 'riseValue', 'value': 1},
+                                {'name': 'fallValue', 'value': 2},
+                                {'name': 'riseRate', 'value': 3},
+                                {'name': 'fallRate', 'value': 4},
+                            ];
+                            typeArray.forEach((type) => {
+                                let warningConfig = this.warningConfigs.find((warningConfig) => {
+                                    return warningConfig.type === type.value && warningConfig.stock_id === this.warningConfigForm.stockId;
+                                });
+                                if (warningConfig != null) {
+                                    warningConfig.value = this.warningConfigForm[type.name];
+                                    warningConfig.switch = this.warningConfigForm[type.name + 'Switch'] === true ? 1 : 0;
+                                } else {
+                                    this.warningConfigs.push({
+                                        value: this.warningConfigForm[type.name],
+                                        switch: this.warningConfigForm[type.name + 'Switch'] === true ? 1 : 0,
+                                        status: 1,
+                                        stock_id: this.warningConfigForm.stockId,
+                                        stock_name: this.warningConfigForm.stockName,
+                                        type: type.value
+                                    });
+                                }
+                            });
                             this.addWarningConfigDialogVisible = false;
+                            let changedNotificationTypes = [];
+                            let stockQuote = this.stockQuotes.find((stockQuote) => {
+                                return stockQuote.id === this.warningConfigForm.stockId;
+                            });
+                            this.warningConfigForm.checkedNotificationTypes.forEach((checkNotificationType) => {
+                                switch (checkNotificationType) {
+                                    case 'email':
+                                        changedNotificationTypes.push({name: 'email', description: '邮箱'});
+                                        break;
+                                    case 'sms':
+                                        changedNotificationTypes.push({name: 'sms', description: '短信'});
+                                        break;
+                                }
+                            });
+                            stockQuote.notificationTypes = changedNotificationTypes;
+                            this.$message.success('添加成功!');
                         }
                     }).catch((error) => {
                         console.log(error);
@@ -218,7 +269,7 @@
                     this.getUserInfo(this.addWarningConfig);
                 }
             },
-            loadWarningConfigs() {
+            loadWarningConfigsData() {
                 if (this.userId !== null) {
                     axios.get('/api/v1/users/' + this.userId + '/warning-configs').then((response) => {
                         if (response.status === 200 && response.data !== null && response.data.data !== null) {
@@ -228,7 +279,7 @@
                         console.log(error);
                     });
                 } else {
-                    this.getUserInfo(this.loadWarningConfigs);
+                    this.getUserInfo(this.loadWarningConfigsData);
                 }
             },
             setWarningConfig(row) {
@@ -245,16 +296,14 @@
                     if (warningConfig != null) {
                         this.warningConfigForm[type.name] = warningConfig.value;
                         this.warningConfigForm[type.name + 'Switch'] = warningConfig.switch === 1 ? true : false;
-
-                        warningConfig.notificationTypes.forEach((notificationType) => {
+                        this.warningConfigForm.checkedNotificationTypes = [];
+                        row.notificationTypes.forEach((notificationType) => {
                             this.warningConfigForm.checkedNotificationTypes.push(notificationType.name);
                         });
                     } else {
                         this.warningConfigForm[type.name] = '';
                         this.warningConfigForm[type.name + 'Switch'] = false;
-                        this.warningConfigForm.checkedNotificationTypes = [];
                     }
-
                 });
             },
             handleAddWarningConfig(row) {
@@ -262,6 +311,7 @@
                 this.warningConfigForm.currentPrice = row.current_price;
                 this.warningConfigForm.quoteChange = row.quote_change;
                 this.warningConfigForm.stockId = row.id;
+
                 this.setWarningConfig(row);
                 this.addWarningConfigDialogVisible = true;
             },
@@ -410,7 +460,7 @@
                 this.loadStockData();
                 this.loadStockQuotesData();
                 this.loadNotificationTypesData();
-                this.loadWarningConfigs();
+                this.loadWarningConfigsData();
             });
             this.intervalId = setInterval(() => {
                 this.loadStockQuotesData();

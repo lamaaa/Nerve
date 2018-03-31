@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Stock;
 use App\WarningConfig;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
@@ -36,6 +37,7 @@ class UserController extends Controller
             foreach ($stocks as $stock) {
                 if ($quote['code'] == $stock->code) {
                     $quote['id'] = $stock->id;
+                    $quote['notificationTypes'] = $stock->notificationTypes;
                     break;
                 }
             }
@@ -155,11 +157,59 @@ class UserController extends Controller
             'user_id' => $user->id,
         ])->get();
 
-        $warningConfigsArray = $warningConfigs->toArray();
-        foreach ($warningConfigs as $index => $warningConfig) {
-            $warningConfigsArray[$index]['notificationTypes'] = $warningConfig->notificationTypes;
+        $warningConfigsArray = [];
+        if ($warningConfigs) {
+            $warningConfigsArray = $warningConfigs->toArray();
+
+            foreach ($warningConfigsArray as $index => &$warningConfig) {
+                $stock = Stock::find($warningConfig['stock_id']);
+                if ($stock) {
+                    $warningConfig['stock_name'] = $stock->name;
+                    $warningConfig['stock_code'] = $stock->code;
+                    $warningConfig['notification_types'] = [];
+                    $notificationTypes = $stock->notificationTypes;
+                    foreach ($notificationTypes as $notificationType) {
+                        $warningConfig['notification_types'][] = $notificationType->name;
+                    }
+                }
+            }
         }
 
         return response()->json(['data' => $warningConfigsArray], 200);
+    }
+
+    public function updateSpeciedStockNotificationTypes(Request $request, $id, $stockId)
+    {
+        $user = Auth::user();
+        $validator = Validator::make(array_merge(
+            [
+                'id' => $id,
+                'stock_id' => $stockId
+            ], $request->all()
+        ), [
+            'id' => 'required|in:' . $id,
+            'stock_id' => [
+                'required',
+                'exists:stocks,id',
+                Rule::exists('stock_user')->where(function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                }),
+            ],
+            'notification_types' => 'required|array|'
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            return response()->json(['errors' => $errors], 422);
+        }
+
+        $stock = Stock::find($stockId);
+        $isUpdated = $stock->updateNotificationTypes($request->input('notification_types'));
+
+        if (!$isUpdated) {
+            return response()->json(['errors' => 'The server has a problem']);
+        }
+
+        return response()->json(null, 204);
     }
 }

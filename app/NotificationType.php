@@ -14,8 +14,28 @@ class NotificationType extends Model
         static::addGlobalScope(new StatusScope());
     }
 
-    public function warningConfigs()
+    public function stocks()
     {
-        return $this->belongsToMany('App\WarningConfig')->withTimestamps();
+        return $this->belongsToMany('App\Stock')->withTimestamps();
+    }
+
+    public static function updateNotificationTypes($stock, $newNotificationTypes)
+    {
+        $savedNotificationTypes = $stock->notificationTypes;
+        $toDeleteNotificationTypes = $savedNotificationTypes->filter(function ($savedNotificationType) use ($newNotificationTypes) {
+            return !$newNotificationTypes->contains('name', $savedNotificationType->name);
+        });
+
+        $toAddNotificationTypes = $newNotificationTypes->filter(function ($newNotificationType) use ($savedNotificationTypes) {
+            return !$savedNotificationTypes->contains($newNotificationType);
+        });
+
+        foreach ($toAddNotificationTypes as $toAddNotificationType) {
+            $stock->notificationTypes()->save($toAddNotificationType);
+        }
+
+        foreach ($toDeleteNotificationTypes as $toDeleteNotificationType) {
+            $stock->notificationTypes()->detach($toDeleteNotificationType->id);
+        }
     }
 }

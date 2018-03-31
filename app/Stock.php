@@ -5,6 +5,7 @@ namespace App;
 use App\Scopes\StatusScope;
 use App\Scopes\StockStatusScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Stock extends Model
 {
@@ -37,8 +38,26 @@ class Stock extends Model
         return false;
     }
 
+    public function updateNotificationTypes($notificationTypeNames)
+    {
+        $newNotificationTypes = new Collection();
+
+        foreach ($notificationTypeNames as $notificationTypeName) {
+            $newNotificationTypes[] = NotificationType::where(['name' => $notificationTypeName])->first();
+        }
+
+        NotificationType::updateNotificationTypes($this, $newNotificationTypes);
+
+        return true;
+    }
+
     public function users()
     {
         return $this->belongsToMany('App\User')->withTimestamps();
+    }
+
+    public function notificationTypes()
+    {
+        return $this->belongsToMany('App\NotificationType')->withTimestamps();
     }
 }

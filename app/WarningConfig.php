@@ -12,7 +12,7 @@ class WarningConfig extends Model
     const RISE_VALUE_TYPE = 'riseValue';
     const FALL_VALUE_TYPE = 'fallValue';
     const RISE_RATE_TYPE = 'riseRate';
-    const FALL_RATE_TYPE = 'fallValue';
+    const FALL_RATE_TYPE = 'fallRate';
     const RISE_VALUE_TYPE_VALUE = 1;
     const FALL_VALUE_TYPE_VALUE = 2;
     const RISE_RATE_TYPE_VALUE = 3;
@@ -40,6 +40,8 @@ class WarningConfig extends Model
         self::addOrUpdateWarningConfig($warningConfigs, self::RISE_RATE_TYPE, self::RISE_RATE_TYPE_VALUE, $userId, $data);
         self::addOrUpdateWarningConfig($warningConfigs, self::FALL_RATE_TYPE, self::FALL_RATE_TYPE_VALUE, $userId, $data);
 
+        self::updateNotificationTypes($data);
+
         return true;
     }
 
@@ -58,52 +60,39 @@ class WarningConfig extends Model
             }
             $warningConfig->switch = $switch;
         } else {
-            // 未有记录
-            $warningConfig = new WarningConfig();
-            $warningConfig->stock_id = $stockId;
-            $warningConfig->user_id = $userId;
-            $warningConfig->type = $typeValue;
-            $warningConfig->value = $value;
-            $warningConfig->switch = $switch;
+            if ($switch) {
+                // 未有记录
+                $warningConfig = new WarningConfig();
+                $warningConfig->stock_id = $stockId;
+                $warningConfig->user_id = $userId;
+                $warningConfig->type = $typeValue;
+                $warningConfig->value = $value;
+                $warningConfig->switch = $switch;
+            }
         }
 
-        if (!$warningConfig->save()) {
-            return false;
-        }
-
-        return self::updateNotificationTypes($warningConfig, $data);
-    }
-
-    private static function updateNotificationTypes($warningConfig, $data)
-    {
-        $newNotificationTypes = new Collection();
-        foreach ($data['checkedNotificationTypes'] as $checkedNotificationType) {
-            $newNotificationTypes[] = NotificationType::where(['name' => $checkedNotificationType])->first();
-        }
-        $savedNotificationTypes = $warningConfig->notificationTypes;
-
-        $toDeleteNotificationTypes = $savedNotificationTypes->filter(function ($savedNotificationType) use ($newNotificationTypes) {
-            $isContained = !$newNotificationTypes->contains('name', $savedNotificationType->name);
-            return $isContained;
-        });
-
-        $toAddNotificationTypes = $newNotificationTypes->filter(function ($newNotificationType) use ($savedNotificationTypes) {
-            return !$savedNotificationTypes->contains($newNotificationType);
-        });
-
-        foreach ($toAddNotificationTypes as $toAddNotificationType) {
-            $warningConfig->notificationTypes()->save($toAddNotificationType);
-        }
-
-        foreach ($toDeleteNotificationTypes as $toDeleteNotificationType) {
-            $warningConfig->notificationTypes()->detach($toDeleteNotificationType->id);
+        if ($warningConfig != null) {
+            return $warningConfig->save();
         }
 
         return true;
     }
 
-    public function notificationTypes()
+    private static function updateNotificationTypes($data)
     {
-        return $this->belongsToMany('App\NotificationType')->withTimestamps();
+        $stock = Stock::find($data['stockId']);
+        $newNotificationTypes = new Collection();
+        foreach ($data['checkedNotificationTypes'] as $checkedNotificationType) {
+            $newNotificationTypes[] = NotificationType::where(['name' => $checkedNotificationType])->first();
+        }
+
+        NotificationType::updateNotificationTypes($stock, $newNotificationTypes);
+
+        return true;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }
