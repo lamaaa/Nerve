@@ -331,7 +331,9 @@
                     axios.delete('/api/v1/users/' + this.userId + '/stocks/' + id).then((response) => {
                         if (response.status === 204 && response.data !== null) {
                             this.$message.success('删除成功！');
-                            this.loadStockQuotesData();
+                            this.stockQuotes = this.stockQuotes.filter((stockQuote) => {
+                                return stockQuote.id !== id;
+                            });
                         }
                     }).catch((error) => {
                         console.log(error);

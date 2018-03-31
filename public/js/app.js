@@ -93111,7 +93111,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.delete('/api/v1/users/' + this.userId + '/stocks/' + id).then(function (response) {
                     if (response.status === 204 && response.data !== null) {
                         _this5.$message.success('删除成功！');
-                        _this5.loadStockQuotesData();
+                        _this5.stockQuotes = _this5.stockQuotes.filter(function (stockQuote) {
+                            return stockQuote.id !== id;
+                        });
                     }
                 }).catch(function (error) {
                     console.log(error);
