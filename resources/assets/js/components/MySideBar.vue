@@ -4,11 +4,12 @@
     class="el-menu-vertical-all-screen"
     background-color="#545c64"
     text-color="#fff"
+    default-active="own-stocks"
     active-text-color="#ffd04b"
     >
         <el-submenu index="1">
             <template slot="title">
-                <i class="el-icon-location"></i>
+                <i class="el-icon-view"></i>
                 <span>股市行情</span>
             </template>
             <el-menu-item index="sh-sz-stocks">沪深股市</el-menu-item>
@@ -16,11 +17,18 @@
         </el-submenu>
         <el-submenu index="2">
             <template slot="title">
-                <i class="el-icon-menu"></i>
+                <i class="el-icon-bell"></i>
                 <span>股票预警</span>
             </template>
             <el-menu-item index="warning-configs">预警设置</el-menu-item>
             <el-menu-item index="2-2">预警历史</el-menu-item>
+        </el-submenu>
+        <el-submenu index="3">
+            <template slot="title">
+                <i class="el-icon-setting"></i>
+                <span>帐号设置</span>
+            </template>
+            <el-menu-item index="">个人资料</el-menu-item>
         </el-submenu>
     </el-menu>
 </template>

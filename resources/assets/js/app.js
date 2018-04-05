@@ -32,6 +32,7 @@ Vue.component('nerve', require('./components/Nerve.vue'));
 
 
 const routes = [
+    { path: '/', redirect: 'own-stocks' },
     { path: '/warning-configs', component: WarningConfigs },
     { path: '/sh-sz-stocks', component: ShSzStockQuotes },
     { path: '/own-stocks', component: OwnStocks },

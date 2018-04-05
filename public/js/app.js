@@ -16346,7 +16346,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a);
 Vue.component('nerve', __webpack_require__(207));
 
-var routes = [{ path: '/warning-configs', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default.a }, { path: '/sh-sz-stocks', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }, { path: '/own-stocks', component: __WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a }];
+var routes = [{ path: '/', redirect: 'own-stocks' }, { path: '/warning-configs', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default.a }, { path: '/sh-sz-stocks', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }, { path: '/own-stocks', component: __WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
     routes: routes
@@ -94254,6 +94254,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {}
@@ -94275,6 +94283,7 @@ var render = function() {
         router: "",
         "background-color": "#545c64",
         "text-color": "#fff",
+        "default-active": "own-stocks",
         "active-text-color": "#ffd04b"
       }
     },
@@ -94284,7 +94293,7 @@ var render = function() {
         { attrs: { index: "1" } },
         [
           _c("template", { slot: "title" }, [
-            _c("i", { staticClass: "el-icon-location" }),
+            _c("i", { staticClass: "el-icon-view" }),
             _vm._v(" "),
             _c("span", [_vm._v("股市行情")])
           ]),
@@ -94305,7 +94314,7 @@ var render = function() {
         { attrs: { index: "2" } },
         [
           _c("template", { slot: "title" }, [
-            _c("i", { staticClass: "el-icon-menu" }),
+            _c("i", { staticClass: "el-icon-bell" }),
             _vm._v(" "),
             _c("span", [_vm._v("股票预警")])
           ]),
@@ -94315,6 +94324,21 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("el-menu-item", { attrs: { index: "2-2" } }, [_vm._v("预警历史")])
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "el-submenu",
+        { attrs: { index: "3" } },
+        [
+          _c("template", { slot: "title" }, [
+            _c("i", { staticClass: "el-icon-setting" }),
+            _vm._v(" "),
+            _c("span", [_vm._v("帐号设置")])
+          ]),
+          _vm._v(" "),
+          _c("el-menu-item", { attrs: { index: "" } }, [_vm._v("个人资料")])
         ],
         2
       )
