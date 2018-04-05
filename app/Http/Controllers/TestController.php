@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ThresholdReached;
 use App\Stock;
+use App\User;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 
 class TestController extends Controller
 {
     public function test()
     {
-        $test = Redis::keys('*');
-        foreach ($test as $item) {
-            Redis::del($item);
-        }
+//        $user = User::find(3);
+//        Mail::to($user)
+//                ->send(new ThresholdReached());
+//        $test = Redis::keys('nerve:stock:*');
+//        foreach ($test as $item) {
+//            Redis::del($item);
+//        }
 //        \Artisan::call('crawl:stockQuotes');
+//        \Artisan::call('prepare:userWarningConfigsQueue');
+        \Artisan::call('check:usersStockQuote');
 //        $client = new Client();
 //        $url = 'http://hq.sinajs.cn/list=';
 //        $stocks = Stock::all();

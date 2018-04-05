@@ -134,6 +134,7 @@
                         this.warningConfigs = this.warningConfigs.filter((warningConfig) => {
                             return warningConfig.id !== id;
                         });
+                        this.rawWarningConfigs = this.warningConfigs;
                     }
                 }).catch((error) => {
                     this.$message.error('删除失败！');

@@ -95,4 +95,20 @@ class WarningConfig extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function notificationTypes()
+    {
+        return $this->belongsTo('App\NotificationType');
+    }
+
+    public function scopeHaveNotWarning($query)
+    {
+        return $query->where(['number_of_warnings' => 0]);
+    }
+
+    public function setNumberOfWarnings()
+    {
+        $this->number_of_warnings++;
+        return $this->save();
+    }
 }

@@ -370,6 +370,7 @@
                             this.stockQuotes = this.stockQuotes.filter((stockQuote) => {
                                 return stockQuote.id !== id;
                             });
+                            this.rawStockQuotes = this.stockQuotes;
                         }
                     }).catch((error) => {
                         console.log(error);

@@ -8,6 +8,7 @@ use GuzzleHttp\Pool;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class CrawlStockQuotes extends Command

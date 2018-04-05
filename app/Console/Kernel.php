@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckUsersStockQuote;
 use App\Console\Commands\CrawlStockCodeAndName;
 use App\Console\Commands\CrawlStockQuotes;
+use App\Console\Commands\PrepareUserWarningConfigsQueue;
 use App\Stock;
 use App\User;
 use Illuminate\Console\Scheduling\Schedule;
@@ -19,6 +21,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         CrawlStockQuotes::class,
         CrawlStockCodeAndName::class,
+        PrepareUserWarningConfigsQueue::class,
+        CheckUsersStockQuote::class,
         //
     ];
 

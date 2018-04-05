@@ -38,4 +38,9 @@ class NotificationType extends Model
             $stock->notificationTypes()->detach($toDeleteNotificationType->id);
         }
     }
+
+    public function warningConfigs()
+    {
+        return $this->belongsTo('App\WarningConfig');
+    }
 }

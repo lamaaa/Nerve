@@ -92019,6 +92019,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.warningConfigs = _this2.warningConfigs.filter(function (warningConfig) {
                         return warningConfig.id !== id;
                     });
+                    _this2.rawWarningConfigs = _this2.warningConfigs;
                 }
             }).catch(function (error) {
                 _this2.$message.error('删除失败！');
@@ -93243,6 +93244,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this5.stockQuotes = _this5.stockQuotes.filter(function (stockQuote) {
                             return stockQuote.id !== id;
                         });
+                        _this5.rawStockQuotes = _this5.stockQuotes;
                     }
                 }).catch(function (error) {
                     console.log(error);
