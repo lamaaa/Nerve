@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\MyOwnResetPassword;
 use App\Scopes\StatusScope;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,5 +44,10 @@ class User extends Authenticatable
     public function warningConfigs()
     {
         return $this->hasMany('App\WarningConfig');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MyOwnResetPassword($token));
     }
 }

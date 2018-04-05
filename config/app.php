@@ -77,7 +77,8 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'zh-cn',
+    'fallback' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -159,7 +160,6 @@ return [
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
-        Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Overtrue\LaravelLang\TranslationServiceProvider::class,
 
     ],
 
