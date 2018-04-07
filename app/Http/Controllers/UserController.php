@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Stock;
+use App\User;
 use App\WarningConfig;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
 use Validator;
@@ -187,7 +189,7 @@ class UserController extends Controller
         return response()->json(['data' => $warningConfigsArray], 200);
     }
 
-    public function updateSpeciedStockNotificationTypes(Request $request, $id, $stockId)
+    public function updateSpecificStockNotificationTypes(Request $request, $id, $stockId)
     {
         $user = Auth::user();
         $validator = Validator::make(array_merge(
@@ -217,6 +219,69 @@ class UserController extends Controller
 
         if (!$isUpdated) {
             return response()->json(['errors' => 'The server has a problem']);
+        }
+
+        return response()->json(null, 204);
+    }
+
+    public function updateUserInfo(Request $request)
+    {
+        $inputData = $request->all();
+        $user = Auth::user();
+        $validator = Validator::make($inputData, [
+            'userId' => 'required|in:' . $user->id,
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id)
+            ],
+            'phone' => [
+                'required',
+                'string',
+                'min:11',
+                'max:11',
+                Rule::unique('users')->ignore($user->id)
+            ],
+            'username' => [
+                'required',
+                'string',
+                'max:255'
+            ]
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            return response()->json(['errors' => $errors], 422);
+        }
+
+        if (!$user->updateUserInfo($inputData)) {
+            return response()->json(['errors' => 'The server has a problem'], 500);
+        }
+
+        return response()->json(null, 204);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = Auth::user();
+        $validator = Validator::make($request->all(), [
+            'oldPassword' => 'required|string',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            return response()->json(['errors' => $errors], 422);
+        }
+
+        if (!Hash::check($request->input('oldPassword'), $user->password)) {
+            return response()->json(['errors' => 'Old password not matched'], 403);
+        }
+
+        if (!$user->changePassword($request->all())) {
+            return response()->json(['errors' => 'The server has a problem'], 500);
         }
 
         return response()->json(null, 204);

@@ -28,7 +28,8 @@
                 <i class="el-icon-setting"></i>
                 <span>帐号设置</span>
             </template>
-            <el-menu-item index="">个人资料</el-menu-item>
+            <el-menu-item index="personal-information">个人信息</el-menu-item>
+            <el-menu-item index="password-change">密码安全</el-menu-item>
         </el-submenu>
     </el-menu>
 </template>

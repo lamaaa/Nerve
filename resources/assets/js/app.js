@@ -21,6 +21,8 @@ import VueRouter from 'vue-router';
 import WarningConfigs from './pages/WarningConfigs.vue';
 import ShSzStockQuotes from './pages/ShSzStockQuotes.vue';
 import OwnStocks from './pages/OwnStocks.vue';
+import PersonalInformation from './pages/PersonalInformation.vue';
+import PasswordChange from './pages/PasswordChange.vue';
 
 
 Vue.use(ElementUI);
@@ -28,6 +30,8 @@ Vue.use(VueRouter);
 Vue.use(WarningConfigs);
 Vue.use(ShSzStockQuotes);
 Vue.use(OwnStocks);
+Vue.use(PersonalInformation);
+Vue.use(PasswordChange);
 Vue.component('nerve', require('./components/Nerve.vue'));
 
 
@@ -36,6 +40,8 @@ const routes = [
     { path: '/warning-configs', component: WarningConfigs },
     { path: '/sh-sz-stocks', component: ShSzStockQuotes },
     { path: '/own-stocks', component: OwnStocks },
+    { path: '/personal-information', component: PersonalInformation },
+    { path: '/password-change', component: PasswordChange },
 ];
 
 const router = new VueRouter({

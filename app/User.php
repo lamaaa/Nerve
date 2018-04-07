@@ -50,4 +50,20 @@ class User extends Authenticatable
     {
         $this->notify(new MyOwnResetPassword($token));
     }
+
+    public function updateUserInfo($data)
+    {
+        $this->email = $data['email'];
+        $this->phone = $data['phone'];
+        $this->username = $data['username'];
+
+        return $this->save();
+    }
+
+    public function changePassword($data)
+    {
+        $this->password = bcrypt($data['password']);
+
+        return $this->save();
+    }
 }
