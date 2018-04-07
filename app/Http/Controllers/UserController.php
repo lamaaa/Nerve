@@ -272,6 +272,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
+            
             $errors = $validator->errors()->toArray();
             return response()->json(['errors' => $errors], 422);
         }
