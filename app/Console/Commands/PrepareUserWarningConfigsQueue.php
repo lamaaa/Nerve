@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class PrepareUserWarningConfigsQueue extends Command
@@ -53,7 +54,6 @@ class PrepareUserWarningConfigsQueue extends Command
                 $queueItem = [];
                 $queueItem['user_id'] = $user->id;
                 $queueItem['warning_configs'] = $user->warningConfigs()->haveNotWarning()->get();
-                \Log::info($queueItem);
                 Redis::lpush($queueName, serialize($queueItem));
             }
         }

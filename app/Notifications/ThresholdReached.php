@@ -16,6 +16,8 @@ class ThresholdReached extends Notification implements ShouldQueue
     private $warningConfig;
     private $currentPrice;
     private $quoteChange;
+    private $price;
+    private $stock;
 
     /**
      *
@@ -30,8 +32,26 @@ class ThresholdReached extends Notification implements ShouldQueue
         $this->warningConfig = $warningConfig;
         $this->currentPrice = $currentPrice;
         $this->quoteChange = $quoteChange;
+        $this->price = $this->assemblePriceMessage();
+        $this->stock = Stock::find($this->warningConfig->stock_id);
     }
 
+    public function assemblePriceMessage()
+    {
+        $type = $this->warningConfig->type;
+        $value = $this->warningConfig->value;
+
+        switch ($type) {
+            case WarningConfig::RISE_VALUE_TYPE_VALUE:
+                return '价格高于：' . $value . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
+            case WarningConfig::FALL_VALUE_TYPE_VALUE:
+                return '价格低于：' . $value . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
+            case WarningConfig::RISE_RATE_TYPE_VALUE:
+                return '涨幅已达：' . $this->quoteChange . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
+            case WarningConfig::FALL_RATE_TYPE_VALUE:
+                return '跌幅已达：' . $this->quoteChange . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
+        }
+    }
     /**
      * Get the notification's delivery channels.
      *
@@ -44,10 +64,22 @@ class ThresholdReached extends Notification implements ShouldQueue
         $stock = Stock::find($this->warningConfig->stock_id);
         $notificationChannels = $stock->notificationTypes;
         foreach ($notificationChannels as $notificationChannel) {
-            $notificationChannelNames[] = $notificationChannel->name;
+            switch ($notificationChannel->name) {
+                case 'mail':
+                    $notificationChannelNames[] = $notificationChannel->name;
+                    break;
+                case 'wechat':
+                    $notificationChannelNames[] = WechatChannel::class;
+                    break;
+            }
         }
 
         return $notificationChannelNames;
+    }
+
+    public function toWechat($notifiable)
+    {
+
     }
 
     /**
@@ -58,32 +90,12 @@ class ThresholdReached extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $stockId = $this->warningConfig->stock_id;
-        $type = $this->warningConfig->type;
-        $value = $this->warningConfig->value;
-        $message = '';
-
-        $stock = Stock::find($stockId);
-        switch ($type) {
-            case WarningConfig::RISE_VALUE_TYPE_VALUE:
-                $message = '价格高于：' . $value . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
-                break;
-            case WarningConfig::FALL_VALUE_TYPE_VALUE:
-                $message = '价格低于：' . $value . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
-                break;
-            case WarningConfig::RISE_RATE_TYPE_VALUE:
-                $message = '涨幅已达：' . $this->quoteChange . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
-                break;
-            case WarningConfig::FALL_RATE_TYPE_VALUE:
-                $message = '跌幅已达：' . $this->quoteChange . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
-
-        }
         return (new MailMessage)
                     ->greeting('已达到您的目标股价')
                     ->salutation('祝君好')
                     ->subject('股价预警')
-                    ->line('名称： ' . $stock->name)
-                    ->line('价格： '  . $message)
+                    ->line('名称： ' . $this->stock->name)
+                    ->line('价格： '  . $this->price)
                     ->line('时间：' . date('Y-m-d H:i:s', time()));
     }
 

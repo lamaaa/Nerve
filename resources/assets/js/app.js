@@ -23,6 +23,7 @@ import ShSzStockQuotes from './pages/ShSzStockQuotes.vue';
 import OwnStocks from './pages/OwnStocks.vue';
 import PersonalInformation from './pages/PersonalInformation.vue';
 import PasswordChange from './pages/PasswordChange.vue';
+import WeChatBind from './pages/WeChatBind.vue';
 
 
 Vue.use(ElementUI);
@@ -32,6 +33,7 @@ Vue.use(ShSzStockQuotes);
 Vue.use(OwnStocks);
 Vue.use(PersonalInformation);
 Vue.use(PasswordChange);
+Vue.use(WeChatBind);
 Vue.component('nerve', require('./components/Nerve.vue'));
 
 
@@ -42,6 +44,7 @@ const routes = [
     { path: '/own-stocks', component: OwnStocks },
     { path: '/personal-information', component: PersonalInformation },
     { path: '/password-change', component: PasswordChange },
+    { path: '/wechat-bind', component: WeChatBind },
 ];
 
 const router = new VueRouter({

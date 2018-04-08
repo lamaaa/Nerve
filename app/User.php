@@ -66,4 +66,15 @@ class User extends Authenticatable
 
         return $this->save();
     }
+
+    public static function bindWeChat($message)
+    {
+        $userId = substr($message['EventKey'], 8);
+        \Log::info($userId);
+        \Log::info($message);
+        $user = User::find($userId);
+        $user->open_id = $message['FromUserName'];
+
+        return $user->save();
+    }
 }

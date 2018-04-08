@@ -16319,6 +16319,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_PersonalInformation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__pages_PersonalInformation_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_PasswordChange_vue__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_PasswordChange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__pages_PasswordChange_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_WeChatBind_vue__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_WeChatBind_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__pages_WeChatBind_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -16345,6 +16347,7 @@ window.Vue = __webpack_require__(3);
 
 
 
+
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_element_ui___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default.a);
@@ -16352,9 +16355,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_6__pages_PersonalInformation_vue___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_7__pages_PasswordChange_vue___default.a);
+Vue.use(__WEBPACK_IMPORTED_MODULE_8__pages_WeChatBind_vue___default.a);
 Vue.component('nerve', __webpack_require__(207));
 
-var routes = [{ path: '/', redirect: 'own-stocks' }, { path: '/warning-configs', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default.a }, { path: '/sh-sz-stocks', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }, { path: '/own-stocks', component: __WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a }, { path: '/personal-information', component: __WEBPACK_IMPORTED_MODULE_6__pages_PersonalInformation_vue___default.a }, { path: '/password-change', component: __WEBPACK_IMPORTED_MODULE_7__pages_PasswordChange_vue___default.a }];
+var routes = [{ path: '/', redirect: 'own-stocks' }, { path: '/warning-configs', component: __WEBPACK_IMPORTED_MODULE_3__pages_WarningConfigs_vue___default.a }, { path: '/sh-sz-stocks', component: __WEBPACK_IMPORTED_MODULE_4__pages_ShSzStockQuotes_vue___default.a }, { path: '/own-stocks', component: __WEBPACK_IMPORTED_MODULE_5__pages_OwnStocks_vue___default.a }, { path: '/personal-information', component: __WEBPACK_IMPORTED_MODULE_6__pages_PersonalInformation_vue___default.a }, { path: '/password-change', component: __WEBPACK_IMPORTED_MODULE_7__pages_PasswordChange_vue___default.a }, { path: '/wechat-bind', component: __WEBPACK_IMPORTED_MODULE_8__pages_WeChatBind_vue___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
     routes: routes
@@ -94217,7 +94221,7 @@ exports = module.exports = __webpack_require__(16)(false);
 
 
 // module
-exports.push([module.i, "\n.el-menu-vertical-all-screen {\n    height: calc(100% - 50px);\n}\n\n", ""]);
+exports.push([module.i, "\n.el-menu-vertical-all-screen {\n    height: calc(100% - 50px);\n}\n", ""]);
 
 // exports
 
@@ -94273,7 +94277,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    methods: {}
+    data: function data() {
+        return {
+            defaultActive: ''
+        };
+    },
+
+    created: function created() {
+        this.defaultActive = this.$route.path.substring(1);
+    }
 });
 
 /***/ }),
@@ -94292,7 +94304,7 @@ var render = function() {
         router: "",
         "background-color": "#545c64",
         "text-color": "#fff",
-        "default-active": "own-stocks",
+        "default-active": this.defaultActive,
         "active-text-color": "#ffd04b"
       }
     },
@@ -94353,6 +94365,10 @@ var render = function() {
           _vm._v(" "),
           _c("el-menu-item", { attrs: { index: "password-change" } }, [
             _vm._v("密码安全")
+          ]),
+          _vm._v(" "),
+          _c("el-menu-item", { attrs: { index: "wechat-bind" } }, [
+            _vm._v("微信号绑定")
           ])
         ],
         2
@@ -94491,8 +94507,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -94502,7 +94516,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 email: '',
                 phone: '',
                 userId: ''
-            }
+            },
+            qrCodeUrl: ''
         };
     },
 
@@ -94626,25 +94641,19 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
+                { attrs: { "label-width": "80px" } },
                 [
                   _c(
-                    "el-col",
-                    { attrs: { offset: 4, span: 10 } },
-                    [
-                      _c(
-                        "el-button",
-                        {
-                          attrs: { type: "primary" },
-                          on: {
-                            click: function($event) {
-                              _vm.onSubmit()
-                            }
-                          }
-                        },
-                        [_vm._v("修改")]
-                      )
-                    ],
-                    1
+                    "el-button",
+                    {
+                      attrs: { type: "primary" },
+                      on: {
+                        click: function($event) {
+                          _vm.onSubmit()
+                        }
+                      }
+                    },
+                    [_vm._v("修改")]
                   )
                 ],
                 1
@@ -94721,8 +94730,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -94868,25 +94875,19 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "el-form-item",
+                { attrs: { "label-width": "100px" } },
                 [
                   _c(
-                    "el-col",
-                    { attrs: { offset: 4, span: 10 } },
-                    [
-                      _c(
-                        "el-button",
-                        {
-                          attrs: { type: "primary" },
-                          on: {
-                            click: function($event) {
-                              _vm.onSubmit()
-                            }
-                          }
-                        },
-                        [_vm._v("重置密码")]
-                      )
-                    ],
-                    1
+                    "el-button",
+                    {
+                      attrs: { type: "primary" },
+                      on: {
+                        click: function($event) {
+                          _vm.onSubmit()
+                        }
+                      }
+                    },
+                    [_vm._v("重置密码")]
                   )
                 ],
                 1
@@ -94907,6 +94908,158 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-58356ce2", module.exports)
+  }
+}
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(17)
+/* script */
+var __vue_script__ = __webpack_require__(231)
+/* template */
+var __vue_template__ = __webpack_require__(232)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\pages\\WeChatBind.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2bb382da", Component.options)
+  } else {
+    hotAPI.reload("data-v-2bb382da", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 231 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            qrCodeUrl: '',
+            intervalId: ''
+        };
+    },
+
+    methods: {
+        getUserQrCodeUrl: function getUserQrCodeUrl() {
+            var _this = this;
+
+            axios.get('api/v1/users/wechat-qrcode-url').then(function (response) {
+                if (response.status === 200 && response.data != null && response.data.data != null) {
+                    var timestamp = Date.parse(new Date());
+                    _this.qrCodeUrl = response.data.data + '?' + timestamp;
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
+    created: function created() {
+        var _this2 = this;
+
+        this.$nextTick(function () {
+            this.getUserQrCodeUrl();
+        });
+        this.intervalId = setInterval(function () {
+            _this2.getUserQrCodeUrl();
+        }, 1000 * 150);
+    },
+    beforeDestroy: function beforeDestroy() {
+        clearInterval(this.intervalId);
+    }
+});
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    {
+      staticStyle: {
+        "background-color": "#fff",
+        position: "relative",
+        overflow: "auto",
+        height: "100%",
+        "border-radius": "10px",
+        padding: "10px",
+        "-webkit-border-radius": "10px",
+        "-moz-border-radius": "10px"
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticStyle: {
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)"
+          }
+        },
+        [
+          _c("img", {
+            staticClass: "image",
+            attrs: { src: _vm.qrCodeUrl, alt: "" }
+          })
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2bb382da", module.exports)
   }
 }
 

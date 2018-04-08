@@ -12,10 +12,8 @@
                 <el-form-item label="确认新密码" label-width="100px">
                     <el-input type="password" v-model="passwordChangeForm.password_confirmation"></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-col :offset="4" :span="10">
-                        <el-button type="primary" @click="onSubmit()">重置密码</el-button>
-                    </el-col>
+                <el-form-item label-width="100px">
+                    <el-button type="primary" @click="onSubmit()">重置密码</el-button>
                 </el-form-item>
             </el-form>
         </div>

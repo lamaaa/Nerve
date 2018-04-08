@@ -12,10 +12,8 @@
                 <el-form-item label="手机号" label-width="80px">
                     <el-input v-model="userInfoForm.phone"></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-col :offset="4" :span="10">
-                        <el-button type="primary" @click="onSubmit()">修改</el-button>
-                    </el-col>
+                <el-form-item label-width="80px">
+                    <el-button type="primary" @click="onSubmit()">修改</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -31,7 +29,8 @@
                     email: '',
                     phone: '',
                     userId: '',
-                }
+                },
+                qrCodeUrl: '',
             }
         },
         methods: {

@@ -66,6 +66,7 @@ class CheckUsersStockQuote extends Command
 
             while ($longestQueue = $this->getLongestQueue()) {
                 $res = Redis::brpop($longestQueue, 2);
+
                 if (!$res) {
                     Log::error('Redis Error Queue:' . $longestQueue);
                     continue;
@@ -139,9 +140,10 @@ class CheckUsersStockQuote extends Command
 
         if ($isRemind) {
             $user = User::find($warningConfig->user_id);
-            Notification::send($user, (new ThresholdReached($warningConfig, $currentPrice, $quoteChange)));
+            $test = Notification::send($user, (new ThresholdReached($warningConfig, $currentPrice, $quoteChange)));
             $warningConfig->setNumberOfWarnings();
         }
+        $this->info('warning_config_id: ' . $warningConfig->id . ' is_remind: ' . ($isRemind == true ? 'true' : 'false'));
     }
 
     private function getLongestQueue()

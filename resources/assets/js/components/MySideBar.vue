@@ -4,7 +4,7 @@
     class="el-menu-vertical-all-screen"
     background-color="#545c64"
     text-color="#fff"
-    default-active="own-stocks"
+    :default-active="this.defaultActive"
     active-text-color="#ffd04b"
     >
         <el-submenu index="1">
@@ -30,6 +30,7 @@
             </template>
             <el-menu-item index="personal-information">个人信息</el-menu-item>
             <el-menu-item index="password-change">密码安全</el-menu-item>
+            <el-menu-item index="wechat-bind">微信号绑定</el-menu-item>
         </el-submenu>
     </el-menu>
 </template>
@@ -38,12 +39,17 @@
     .el-menu-vertical-all-screen {
         height: calc(100% - 50px);
     }
-
 </style>
 
 <script>
     export default {
-        methods: {
+        data() {
+            return {
+                defaultActive: '',
+            }
+        },
+        created: function () {
+            this.defaultActive = this.$route.path.substring(1);
         }
     }
 </script>

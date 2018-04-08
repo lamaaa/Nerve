@@ -21,6 +21,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::any('/wechat', 'WeChatController@serve');
+
 Route::group(['prefix' => 'api/v1', 'middleware' => 'auth'], function () {
     Route::get('/quotes', 'QuoteController@index');
     Route::get('/stocks', 'StockController@index');
@@ -37,5 +39,7 @@ Route::group(['prefix' => 'api/v1', 'middleware' => 'auth'], function () {
     Route::delete('/warning-configs/{warningConfigId}', 'WarningConfigController@deleteWarningConfig');
     Route::put('/users', 'UserController@updateUserInfo');
     Route::put('/users/password', 'UserController@changePassword');
+
+    Route::get('/users/wechat-qrcode-url', 'WeChatController@getQrCodeUrl');
 });
 
