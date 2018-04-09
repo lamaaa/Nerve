@@ -14,9 +14,6 @@ class WeChatController extends Controller
 {
     public function serve()
     {
-        Log::info('request arrived');
-
-//        $app = app('wechat.official_account');
         $wechat = app('wechat');
         $wechat->server->setMessageHandler(function ($message) {
             switch ($message['MsgType']) {
@@ -65,7 +62,6 @@ class WeChatController extends Controller
                     return 'Nerve';
                     break;
             }
-            Log::info($message);
             return "欢迎关注 Nerve";
         });
 

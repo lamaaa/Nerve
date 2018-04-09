@@ -39,6 +39,7 @@ Route::group(['prefix' => 'api/v1', 'middleware' => 'auth'], function () {
     Route::delete('/warning-configs/{warningConfigId}', 'WarningConfigController@deleteWarningConfig');
     Route::put('/users', 'UserController@updateUserInfo');
     Route::put('/users/password', 'UserController@changePassword');
+    Route::get('/warning-records', 'WarningRecordController@index');
 
     Route::get('/users/wechat-qrcode-url', 'WeChatController@getQrCodeUrl');
 });

@@ -46,6 +46,11 @@ class User extends Authenticatable
         return $this->hasMany('App\WarningConfig');
     }
 
+    public function warningRecords()
+    {
+        return $this->hasMany('App\WarningRecord');
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MyOwnResetPassword($token));

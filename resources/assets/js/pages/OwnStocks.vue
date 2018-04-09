@@ -44,12 +44,22 @@
                 prop="current_price"
                 sortable
                 label="最新">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.quote_change === '0.00%'">{{ scope.row.current_price }}</span>
+                        <span v-else-if="scope.row.quote_change.substring(0, 1) === '-'" style="color: #67C23A">{{ scope.row.current_price }}</span>
+                        <span v-else style="color: red">{{ scope.row.current_price }}</span>
+                    </template>
                 </el-table-column>
                 <el-table-column
                 prop="quote_change"
                 sortable
                 min-width="100"
                 label="涨跌幅">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.quote_change === '0.00%'">{{ scope.row.quote_change }}</span>
+                        <span v-else-if="scope.row.quote_change.substring(0, 1) === '-'" style="color: #67C23A">{{ scope.row.quote_change }}</span>
+                        <span v-else style="color: red">{{ scope.row.quote_change }}</span>
+                    </template>
                 </el-table-column>
                 <el-table-column
                 prop="today_opening"

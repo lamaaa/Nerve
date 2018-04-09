@@ -7,6 +7,7 @@ use App\Notifications\ThresholdReached;
 use App\Stock;
 use App\User;
 use App\WarningConfig;
+use App\WarningRecord;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -68,7 +69,6 @@ class CheckUsersStockQuote extends Command
                 $res = Redis::brpop($longestQueue, 2);
 
                 if (!$res) {
-                    Log::error('Redis Error Queue:' . $longestQueue);
                     continue;
                 }
 
@@ -100,6 +100,8 @@ class CheckUsersStockQuote extends Command
                 $currentPrice = floatval($stockQuote['current_price']);
                 $quoteChange = floatval($stockQuote['quote_change']);
                 $stockQuotes[$stock->id] = [
+                    'code' => $stockQuote['code'],
+                    'name' => $stockQuote['name'],
                     'currentPrice' => $currentPrice,
                     'quoteChange' => $quoteChange
                 ];
@@ -114,6 +116,7 @@ class CheckUsersStockQuote extends Command
         $stockId = $warningConfig->stock_id;
         $currentPrice = $stockQuotes[$stockId]['currentPrice'];
         $quoteChange = $stockQuotes[$stockId]['quoteChange'];
+        $stock = Stock::find($stockId);
         $isRemind = false;
 
         switch ($warningConfig->type) {
@@ -147,8 +150,29 @@ class CheckUsersStockQuote extends Command
             $user = User::find($warningConfig->user_id);
             Notification::send($user, (new ThresholdReached($warningConfig, $currentPrice, $quoteChange)));
             $warningConfig->setNumberOfWarnings();
+            WarningRecord::logWarningRecord([
+                'user_id' => $user->id,
+                'type' => $warningConfig->type,
+                'value' => $warningConfig->value,
+                'stock_code' => $stockQuotes[$stockId]['code'],
+                'stock_name' => $stockQuotes[$stockId]['name'],
+                'stock_price' => $stockQuotes[$stockId]['currentPrice'],
+                'stock_quote_change' => $stockQuotes[$stockId]['quoteChange'],
+                'notification_types' => $this->assembleNotificationDescriptions($stock->notificationTypes),
+            ]);
         }
+
         $this->info(date('Y-m-d H:i:s', time()) . ' warning_config_id: ' . $warningConfig->id . ' is_remind: ' . ($isRemind == true ? 'true' : 'false'));
+    }
+
+    private function assembleNotificationDescriptions($notificationTypes)
+    {
+        $notificationTypeDescriptionsStr = '';
+        foreach ($notificationTypes as $notificationType) {
+            $notificationTypeDescriptionsStr .= $notificationType->description . ' ';
+        }
+
+        return $notificationTypeDescriptionsStr;
     }
 
     private function getLongestQueue()

@@ -1,6 +1,6 @@
 <template>
     <section id="warningConfigSection">
-        <el-row style="margin: 20px 0px;">
+        <el-row style="margin: 20px 0;">
             <el-col :span="6" style="margin-right: 5px;">
                 <el-input
                 v-model="stockQueryString"

@@ -21,7 +21,7 @@
                 <span>股票预警</span>
             </template>
             <el-menu-item index="warning-configs">预警设置</el-menu-item>
-            <el-menu-item index="2-2">预警历史</el-menu-item>
+            <el-menu-item index="warning-records">预警历史</el-menu-item>
         </el-submenu>
         <el-submenu index="3">
             <template slot="title">

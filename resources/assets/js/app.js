@@ -24,6 +24,7 @@ import OwnStocks from './pages/OwnStocks.vue';
 import PersonalInformation from './pages/PersonalInformation.vue';
 import PasswordChange from './pages/PasswordChange.vue';
 import WeChatBind from './pages/WeChatBind.vue';
+import WarningRecords from './pages/WarningRecords.vue';
 
 
 Vue.use(ElementUI);
@@ -34,6 +35,7 @@ Vue.use(OwnStocks);
 Vue.use(PersonalInformation);
 Vue.use(PasswordChange);
 Vue.use(WeChatBind);
+Vue.use(WarningConfigs);
 Vue.component('nerve', require('./components/Nerve.vue'));
 
 
@@ -45,6 +47,7 @@ const routes = [
     { path: '/personal-information', component: PersonalInformation },
     { path: '/password-change', component: PasswordChange },
     { path: '/wechat-bind', component: WeChatBind },
+    { path: '/warning-records', component: WarningRecords },
 ];
 
 const router = new VueRouter({
