@@ -6,6 +6,7 @@ use App\Console\Commands\CheckUsersStockQuote;
 use App\Console\Commands\CrawlStockCodeAndName;
 use App\Console\Commands\CrawlStockQuotes;
 use App\Console\Commands\PrepareUserWarningConfigsQueue;
+use App\Console\Commands\SetNumberOfWarnings;
 use App\Stock;
 use App\User;
 use Illuminate\Console\Scheduling\Schedule;
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
         CrawlStockCodeAndName::class,
         PrepareUserWarningConfigsQueue::class,
         CheckUsersStockQuote::class,
+        SetNumberOfWarnings::class,
         //
     ];
 
@@ -36,6 +38,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('crawl:stockQuotes')->everyMinute();
+        $schedule->command('prepare:userWarningConfigsQueue')->everyMinute();
+        $schedule->command('set:numberOfWarnings')->daily();
     }
 
     /**

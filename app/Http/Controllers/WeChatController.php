@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use EasyWeChat\Foundation\Application;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,8 +16,9 @@ class WeChatController extends Controller
     {
         Log::info('request arrived');
 
-        $app = app('wechat.official_account');
-        $app->server->push(function ($message) {
+//        $app = app('wechat.official_account');
+        $wechat = app('wechat');
+        $wechat->server->setMessageHandler(function ($message) {
             switch ($message['MsgType']) {
                 case 'event':
                     switch ($message['Event']) {
@@ -67,22 +69,17 @@ class WeChatController extends Controller
             return "欢迎关注 Nerve";
         });
 
-        return $app->server->serve();
+        return $wechat->server->serve();
     }
 
-    public function getQrCodeUrl()
+    public function getQrCodeUrl(Application $wechat)
     {
-        $app = app('wechat.official_account');
         $user = Auth::user();
 
-        if ($user->open_id !== '') {
-            return response()->json(['errors' => 'The user has been followed'], 404);
-        }
-
-        $result = $app->qrcode->temporary($user->id, 3 * 60);
+        $result = $wechat->qrcode->temporary($user->id, 3 * 60);
 
         $ticket = $result['ticket'];
-        $url = $app->qrcode->url($ticket);
+        $url = $wechat->qrcode->url($ticket);
         $content = file_get_contents($url);
         Storage::put('public/qrcodes/' . $user->id . '.png', $content);
         $url = Storage::url('public/qrcodes/' . $user->id . '.png');

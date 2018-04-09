@@ -8,6 +8,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Log;
+use NotificationChannels\Wechat\WechatChannel;
+use NotificationChannels\Wechat\WechatMessage;
 
 class ThresholdReached extends Notification implements ShouldQueue
 {
@@ -18,6 +21,7 @@ class ThresholdReached extends Notification implements ShouldQueue
     private $quoteChange;
     private $price;
     private $stock;
+    private $time;
 
     /**
      *
@@ -34,7 +38,10 @@ class ThresholdReached extends Notification implements ShouldQueue
         $this->quoteChange = $quoteChange;
         $this->price = $this->assemblePriceMessage();
         $this->stock = Stock::find($this->warningConfig->stock_id);
+        $this->time = date('Y-m-d H:i:s', time() + 28800);
     }
+
+
 
     public function assemblePriceMessage()
     {
@@ -47,9 +54,9 @@ class ThresholdReached extends Notification implements ShouldQueue
             case WarningConfig::FALL_VALUE_TYPE_VALUE:
                 return '价格低于：' . $value . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
             case WarningConfig::RISE_RATE_TYPE_VALUE:
-                return '涨幅已达：' . $this->quoteChange . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
+                return '涨幅已达：' . round($this->quoteChange * 100, 2) . '%  最新价：' . $this->currentPrice . ' （设定值：' . $value .'%）';
             case WarningConfig::FALL_RATE_TYPE_VALUE:
-                return '跌幅已达：' . $this->quoteChange . '  最新价：' . $this->currentPrice . ' （设定值：' . $value .'）';
+                return '跌幅已达：' . round($this->quoteChange * 100, 2) . '%  最新价：' . $this->currentPrice . ' （设定值：' . $value .'%）';
         }
     }
     /**
@@ -79,7 +86,19 @@ class ThresholdReached extends Notification implements ShouldQueue
 
     public function toWechat($notifiable)
     {
+        Log::info($this->price);
+        $notice = [
+            'templateId' => '6TAOAK7w7qYbMh8LDHUnLl5-j6WiqNuPDrrWpPuOxaM',
+            'url' => '',
+            'data' => [
+                'title' => '股票价格提醒',
+                'name' => $this->stock->name,
+                'price' => $this->price,
+                'time' => $this->time
+            ]
+        ];
 
+        return new WechatMessage($notice);
     }
 
     /**
@@ -96,7 +115,7 @@ class ThresholdReached extends Notification implements ShouldQueue
                     ->subject('股价预警')
                     ->line('名称： ' . $this->stock->name)
                     ->line('价格： '  . $this->price)
-                    ->line('时间：' . date('Y-m-d H:i:s', time()));
+                    ->line('时间：' . $this->time);
     }
 
     /**

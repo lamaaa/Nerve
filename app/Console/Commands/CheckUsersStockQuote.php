@@ -130,9 +130,14 @@ class CheckUsersStockQuote extends Command
                 }
                 break;
             case WarningConfig::RISE_RATE_TYPE_VALUE:
-            case WarningConfig::FALL_RATE_TYPE_VALUE:
                 $warningQuoteChange = floatval($warningConfig->value);
                 if ($quoteChange * 100 >= $warningQuoteChange) {
+                    $isRemind = true;
+                }
+                break;
+            case WarningConfig::FALL_RATE_TYPE_VALUE:
+                $warningQuoteChange = floatval($warningConfig->value);
+                if ($quoteChange * 100 <= ((-1.0) * $warningQuoteChange)) {
                     $isRemind = true;
                 }
                 break;
@@ -140,10 +145,10 @@ class CheckUsersStockQuote extends Command
 
         if ($isRemind) {
             $user = User::find($warningConfig->user_id);
-            $test = Notification::send($user, (new ThresholdReached($warningConfig, $currentPrice, $quoteChange)));
+            Notification::send($user, (new ThresholdReached($warningConfig, $currentPrice, $quoteChange)));
             $warningConfig->setNumberOfWarnings();
         }
-        $this->info('warning_config_id: ' . $warningConfig->id . ' is_remind: ' . ($isRemind == true ? 'true' : 'false'));
+        $this->info(date('Y-m-d H:i:s', time()) . ' warning_config_id: ' . $warningConfig->id . ' is_remind: ' . ($isRemind == true ? 'true' : 'false'));
     }
 
     private function getLongestQueue()

@@ -77,4 +77,9 @@ class User extends Authenticatable
 
         return $user->save();
     }
+
+    public function routeNotificationForWechat()
+    {
+        return $this->open_id;
+    }
 }
